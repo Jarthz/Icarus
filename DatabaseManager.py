@@ -33,5 +33,12 @@ class DatabaseManager:
                 except sqlite3.Error as e:
                     print(f"Error closing connection to database {self.db_name}: {e}")
 
-
+    def rollback(self, conn):
+        if conn:
+            try:
+                conn.rollback()
+                print("Transaction rolled back.")
+            except sqlite3.Error as e:
+                print(f"Error rollback transaction: {e}")
+    
 
