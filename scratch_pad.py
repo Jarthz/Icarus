@@ -8,17 +8,16 @@ CREATE TABLE Pilots (
     ExperienceYears INTEGER NOT NULL,
     Rank TEXT NOT NULL,
     Email TEXT,
-    PhoneNumber TEXT
 );
 
 airports
 
 CREATE TABLE Airports (
     Airport_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    AirportCode TEXT NOT NULL UNIQUE,        -- e.g. LAX, JFK
-    AirportName TEXT NOT NULL,               -- Full airport name
-    AirportCountry TEXT NOT NULL,            -- Country name
-    Runways INTEGER NOT NULL                 -- Number of runways
+    AirportCode TEXT NOT NULL UNIQUE,
+    AirportName TEXT NOT NULL,
+    AirportCountry TEXT NOT NULL,
+    Runways INTEGER NOT NULL
 );
 
 

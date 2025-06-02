@@ -40,5 +40,5 @@ class DatabaseManager:
                 print("Transaction rolled back.")
             except sqlite3.Error as e:
                 print(f"Error rollback transaction: {e}")
-    
+
 
