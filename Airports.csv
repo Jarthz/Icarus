@@ -1,0 +1,16 @@
+Airport_ID,AirportCode,AirportName,AirportCountry,Runways
+1,JFK,JFK International,USA,4
+2,LHR,Heathrow,UK,2
+3,CDG,Charles de Gaulle,France,4
+4,HND,Haneda,Japan,4
+5,SIN,Changi,Singapore,3
+6,SYD,Sydney,Australia,3
+7,FRA,Frankfurt,Germany,4
+8,DXB,Dubai Intl,UAE,2
+9,YYZ,Toronto Pearson,Canada,5
+10,ICN,Incheon,South Korea,3
+11,LAX,Los Angeles,USA,4
+12,MAD,Madrid-Barajas,Spain,4
+13,GRU,São Paulo–Guarulhos,Brazil,2
+14,AMS,Amsterdam Schiphol,Netherlands,6
+15,DEL,Indira Gandhi Intl,India,3
