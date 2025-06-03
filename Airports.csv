@@ -1,4 +1,4 @@
-Airport_ID,AirportCode,AirportName,AirportCountry,Runways
+ï»¿Airport_ID,AirportCode,AirportName,AirportCountry,Runways
 1,JFK,JFK International,USA,4
 2,LHR,Heathrow,UK,2
 3,CDG,Charles de Gaulle,France,4
@@ -11,6 +11,6 @@ Airport_ID,AirportCode,AirportName,AirportCountry,Runways
 10,ICN,Incheon,South Korea,3
 11,LAX,Los Angeles,USA,4
 12,MAD,Madrid-Barajas,Spain,4
-13,GRU,São Paulo–Guarulhos,Brazil,2
+13,GRU,SÃ£o Pauloâ€“Guarulhos,Brazil,2
 14,AMS,Amsterdam Schiphol,Netherlands,6
 15,DEL,Indira Gandhi Intl,India,3
