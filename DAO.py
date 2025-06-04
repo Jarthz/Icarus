@@ -107,6 +107,52 @@ class DAO:
                 finally:
                     self.db_manager.close(conn)
 
+#learnt this after the above, still will be useful for updates and deletes
+    def transaction_wrapper(self, operation):
+        conn = self.db_manager.connect()
+        if not conn:
+            print("No database connection.")
+            return None
+
+        result = None
+        try:
+            result = operation(conn)
+            conn.commit()
+            print("Transaction committed.")
+        except Exception as e:
+            print(f"Error committing transaction: {e}")
+            self.db_manager.rollback(conn)
+        finally:
+            self.db_manager.close(conn)
+        return result
+
+    def get_row_count(self, table_name):
+        def operation(conn):
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+            return cursor.fetchone()[0]
+        return self.transaction_wrapper(operation)
+
+    def table_columns(self, table_name, conn=None):
+        def operation(conn):
+            cursor = inner_conn.cursor()
+            cursor.execute(f"PRAGMA table_info({table_name})")
+            return [row[1] for row in cursor.fetchall()]
+        if conn:
+            return operation(conn)
+        else:
+            return self.transaction_wrapper(operation)
+
+    def test(self, table, data):
+        def operation(conn):
+            table_columns = self.table_columns(table, conn)
+            if table_columns:
+                cursor = conn.cursor()
+                cursor.execute(f"""
+                    INSERT INTO {table} ({','.join(table_columns)})
+                    VALUES
+"""
+
 
 
 

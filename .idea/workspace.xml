@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="created DAO objects">
-      <change afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Schema.py" afterDir="false" />
+    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="big refactor single DAO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Icarus.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +187,7 @@
       <updated>1748888098650</updated>
       <workItem from="1748888099662" duration="5797000" />
       <workItem from="1748978091860" duration="6296000" />
-      <workItem from="1749064086721" duration="3886000" />
+      <workItem from="1749064086721" duration="6448000" />
     </task>
     <task id="LOCAL-00001" summary="update databasemanager with connect and close">
       <option name="closed" value="true" />
@@ -223,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748984400511</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="big refactor single DAO">
+      <option name="closed" value="true" />
+      <created>1749068104821</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749068104821</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,10 +239,11 @@
     <MESSAGE value="update databasemanager with connect and close" />
     <MESSAGE value="created main with schema for airport and pilots tables" />
     <MESSAGE value="created DAO objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="created DAO objects" />
+    <MESSAGE value="big refactor single DAO" />
+    <option name="LAST_COMMIT_MESSAGE" value="big refactor single DAO" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Icarus$DAO.coverage" NAME="DAO Coverage Results" MODIFIED="1749067841064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$DAO.coverage" NAME="DAO Coverage Results" MODIFIED="1749069190565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DatabaseManager.coverage" NAME="DatabaseManager Coverage Results" MODIFIED="1748894194416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1748896051137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$AirportDAO.coverage" NAME="AirportDAO Coverage Results" MODIFIED="1748981269076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
