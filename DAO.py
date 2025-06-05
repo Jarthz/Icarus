@@ -1,7 +1,8 @@
 import pandas as pd
 import sqlite3
 import os
-import Schema
+from Schema import Schema
+import QueryBuilder
 
 
 class DAO:
@@ -11,6 +12,29 @@ class DAO:
     #SQL getters
     def get_sql_select_all(self, table_name):
         return f"SELECT * FROM {table_name}"
+
+    def get_sql_select(self, table_name, column_name, criteria=None):
+        """
+        :param table_name (str):
+        :param column_name (str or list0:
+        :param criteria (dict, optional):
+        :return: tuple (sql_statment, params)
+        """
+        if isinstance(column_name, list):
+            columns_str = ', '.join(column_name)
+        else:
+            columns_str = column_name
+
+        sql_statement = f"SELECT {columns_str} FROM {table_name}"
+
+        params = []
+        if criteria:
+            where_clause = []
+            for col in criteria.keys():
+                where_clause.append(f"{col} = ?")
+                params.append(criteria[col])
+            sql_statement += " WHERE " + " AND ".join(where_clause)
+        return sql_statement, params
 
     def get_sql_create_table(self, table_name, schema):
         return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
@@ -158,17 +182,6 @@ class DAO:
         else:
             return self.transaction_wrapper(operation)
 
-    def get_auto_increment(self, table_name):
-        auto_increment_cols = []
-        schema = Schema.Tables.get(table_name)
-        if schema:
-            lines = schema.strip().splitlines()
-            for line in lines:
-                line_clean = line.strip().rstrip(',')
-                if 'AUTOINCREMENT' in line_clean.upper() and 'PRIMARY KEY' in line_clean.upper():
-                    column_name = line_clean.split()[0]
-                    auto_increment_cols.append(column_name)
-        return auto_increment_cols
 
     def add_data(self, table, data):
         def operation(conn):
@@ -177,7 +190,7 @@ class DAO:
                 print(f"No table columns for table {table}.")
                 return
 
-            auto_increment_cols = self.get_auto_increment(table)
+            auto_increment_cols = Schema.get_auto_increment(table)
             for col in auto_increment_cols:
                 if col in table_columns:
                     table_columns.remove(col)
