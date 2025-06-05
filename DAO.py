@@ -8,6 +8,22 @@ class DAO:
     def __init__(self, db_manager):
         self.db_manager = db_manager
 
+    #SQL getters
+    def get_sql_select_all(self, table_name):
+        return f"SELECT * FROM {table_name}"
+
+    def get_sql_create_table(self, table_name, schema):
+        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
+
+    def get_placeholders(self, columns):
+        return ",".join(['?'] * len(columns))
+
+    def get_sql_insert_statement(self, table_name, columns, placeholders):
+        return f"""
+            INSERT INTO {table_name} ({','.join(columns)})
+            VALUES ({placeholders})
+            """
+
     def create_table(self, table=Schema.Tables):
         conn = self.db_manager.connect()
         if table is None:
@@ -17,7 +33,7 @@ class DAO:
             try:
                 cursor = conn.cursor()
                 for table_name, schema in table.items():
-                    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})")
+                    cursor.execute(self.get_sql_create_table(table_name, schema))
                     print(f"Table {table_name} created.")
                 conn.commit()
                 print("Success! All tables created, committed to DB.")
@@ -87,13 +103,9 @@ class DAO:
             if conn:
                 try:
                     cursor = conn.cursor()
-
                     columns = list(df.columns)
-                    placeholders = ",".join(['?'] * len(columns))
-                    statement = f"""
-                        INSERT INTO {table_name} ({','.join(columns)})
-                        VALUES ({placeholders})
-                        """
+                    placeholders = self.get_placeholders(columns)
+                    statement = self.get_sql_insert_statement(table_name, columns, placeholders)
 
                     for index, row in df.iterrows():
                         values = tuple(row[col] for col in columns)
@@ -118,23 +130,26 @@ class DAO:
         try:
             result = operation(conn)
             conn.commit()
-            print("Transaction committed.")
+            print("Operation Complete.")
         except Exception as e:
-            print(f"Error committing transaction: {e}")
+            print(f"Error performing operation: {e}")
             self.db_manager.rollback(conn)
         finally:
             self.db_manager.close(conn)
         return result
 
-    def get_row_count(self, table_name):
-        def operation(conn):
-            cursor = conn.cursor()
+    def get_row_count(self, table_name, conn=None):
+        def operation(inner_conn):
+            cursor = inner_conn.cursor()
             cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
             return cursor.fetchone()[0]
-        return self.transaction_wrapper(operation)
+        if conn:
+            return operation(conn)
+        else:
+            return self.transaction_wrapper(operation)
 
-    def table_columns(self, table_name, conn=None):
-        def operation(conn):
+    def get_table_columns(self, table_name, conn=None):
+        def operation(inner_conn):
             cursor = inner_conn.cursor()
             cursor.execute(f"PRAGMA table_info({table_name})")
             return [row[1] for row in cursor.fetchall()]
@@ -143,15 +158,49 @@ class DAO:
         else:
             return self.transaction_wrapper(operation)
 
-    def test(self, table, data):
+    def get_auto_increment(self, table_name):
+        auto_increment_cols = []
+        schema = Schema.Tables.get(table_name)
+        if schema:
+            lines = schema.strip().splitlines()
+            for line in lines:
+                line_clean = line.strip().rstrip(',')
+                if 'AUTOINCREMENT' in line_clean.upper() and 'PRIMARY KEY' in line_clean.upper():
+                    column_name = line_clean.split()[0]
+                    auto_increment_cols.append(column_name)
+        return auto_increment_cols
+
+    def add_data(self, table, data):
         def operation(conn):
-            table_columns = self.table_columns(table, conn)
-            if table_columns:
-                cursor = conn.cursor()
-                cursor.execute(f"""
-                    INSERT INTO {table} ({','.join(table_columns)})
-                    VALUES
-"""
+            table_columns = self.get_table_columns(table, conn)
+            if table_columns is None:
+                print(f"No table columns for table {table}.")
+                return
+
+            auto_increment_cols = self.get_auto_increment(table)
+            for col in auto_increment_cols:
+                if col in table_columns:
+                    table_columns.remove(col)
+
+            table_size = self.get_row_count(table, conn)
+
+            if len(data) != len(table_columns):
+                print(f"Data length mismatch: expected {len(table_columns)}, got {len(data)}.")
+                print(f"Columns: {table_columns}")
+                return
+
+            data_tuple = tuple(data)
+            cursor = conn.cursor()
+            placeholders = self.get_placeholders(table_columns)
+            statement = self.get_sql_insert_statement(table, table_columns, placeholders)
+
+            cursor.execute(statement, data_tuple)
+            print(f"Successfully inserted data into {table}.")
+
+            new_table_size = self.get_row_count(table, conn)
+            return print(f"Old table size: {table_size}. New table size: {new_table_size}.")
+        return self.transaction_wrapper(operation)
+
 
 
 
