@@ -2,53 +2,12 @@ import pandas as pd
 import sqlite3
 import os
 from Schema import Schema
-import QueryBuilder
+from QueryBuilder import QueryBuilder as qb
 
 
 class DAO:
     def __init__(self, db_manager):
         self.db_manager = db_manager
-
-    #SQL getters
-    def get_sql_select_all(self, table_name):
-        return f"SELECT * FROM {table_name}"
-
-    def get_sql_select_delete(self, table_name, column_name, criteria=None, action='SELECT'):
-        """
-        :param table_name (str):
-        :param column_name (str or list0:
-        :param criteria (dict, optional):
-        :return: tuple (sql_statment, params)
-        """
-        if isinstance(column_name, list):
-            columns_str = ', '.join(column_name)
-        else:
-            columns_str = column_name
-
-        sql_statement = f"{action} {columns_str} FROM {table_name}"
-
-        values = []
-        if criteria:
-            where_clause = []
-            for row in criteria:
-                where_clause.append(f"{row[0]} {row[1]} {row[2]} ?")
-                values.append(row[3])
-
-            sql_statement += " WHERE "
-            sql_statement += "".join(where_clause)
-        return sql_statement, values
-
-    def get_sql_create_table(self, table_name, schema):
-        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
-
-    def get_placeholders(self, columns):
-        return ",".join(['?'] * len(columns))
-
-    def get_sql_insert_statement(self, table_name, columns, placeholders):
-        return f"""
-            INSERT INTO {table_name} ({','.join(columns)})
-            VALUES ({placeholders})
-            """
 
     def create_table(self, table=Schema.Tables):
         conn = self.db_manager.connect()
@@ -59,7 +18,7 @@ class DAO:
             try:
                 cursor = conn.cursor()
                 for table_name, schema in table.items():
-                    cursor.execute(self.get_sql_create_table(table_name, schema))
+                    cursor.execute(qb.get_sql_create_table(table_name, schema))
                     print(f"Table {table_name} created.")
                 conn.commit()
                 print("Success! All tables created, committed to DB.")
@@ -130,8 +89,8 @@ class DAO:
                 try:
                     cursor = conn.cursor()
                     columns = list(df.columns)
-                    placeholders = self.get_placeholders(columns)
-                    statement = self.get_sql_insert_statement(table_name, columns, placeholders)
+                    placeholders = qb.get_placeholders(columns)
+                    statement = qb.get_sql_insert_statement(table_name, columns, placeholders)
 
                     for index, row in df.iterrows():
                         values = tuple(row[col] for col in columns)
@@ -205,8 +164,8 @@ class DAO:
 
             data_tuple = tuple(data)
             cursor = conn.cursor()
-            placeholders = self.get_placeholders(table_columns)
-            statement = self.get_sql_insert_statement(table, table_columns, placeholders)
+            placeholders = qb.get_placeholders(table_columns)
+            statement = qb.get_sql_insert_statement(table, table_columns, placeholders)
 
             cursor.execute(statement, data_tuple)
             print(f"Successfully inserted data into {table}.")
@@ -218,7 +177,7 @@ class DAO:
     def select_or_delete(self, table, column, criteria=None, action='SELECT'):
         def operation(conn):
             cursor = conn.cursor()
-            statement, values = self.get_sql_select_delete(table, column, criteria, action)
+            statement, values = qb.get_sql_select_delete(table, column, criteria, action)
             cursor.execute(statement, values)
             result = cursor.fetchall()
             for row in result:
