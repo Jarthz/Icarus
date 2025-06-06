@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="add_data">
-      <change afterPath="$PROJECT_DIR$/QueryBuilder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schema.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +188,8 @@
       <workItem from="1748888099662" duration="5797000" />
       <workItem from="1748978091860" duration="6296000" />
       <workItem from="1749064086721" duration="6848000" />
-      <workItem from="1749149667031" duration="5767000" />
+      <workItem from="1749149667031" duration="6244000" />
+      <workItem from="1749236669359" duration="1047000" />
     </task>
     <task id="LOCAL-00001" summary="update databasemanager with connect and close">
       <option name="closed" value="true" />
@@ -248,7 +247,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749153801878</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add_data">
+      <option name="closed" value="true" />
+      <created>1749155799870</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749155799870</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

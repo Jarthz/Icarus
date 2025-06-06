@@ -13,7 +13,7 @@ class DAO:
     def get_sql_select_all(self, table_name):
         return f"SELECT * FROM {table_name}"
 
-    def get_sql_select(self, table_name, column_name, criteria=None):
+    def get_sql_select_delete(self, table_name, column_name, criteria=None, action='SELECT'):
         """
         :param table_name (str):
         :param column_name (str or list0:
@@ -25,16 +25,18 @@ class DAO:
         else:
             columns_str = column_name
 
-        sql_statement = f"SELECT {columns_str} FROM {table_name}"
+        sql_statement = f"{action} {columns_str} FROM {table_name}"
 
-        params = []
+        values = []
         if criteria:
             where_clause = []
-            for col in criteria.keys():
-                where_clause.append(f"{col} = ?")
-                params.append(criteria[col])
-            sql_statement += " WHERE " + " AND ".join(where_clause)
-        return sql_statement, params
+            for row in criteria:
+                where_clause.append(f"{row[0]} {row[1]} {row[2]} ?")
+                values.append(row[3])
+
+            sql_statement += " WHERE "
+            sql_statement += "".join(where_clause)
+        return sql_statement, values
 
     def get_sql_create_table(self, table_name, schema):
         return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
@@ -182,7 +184,6 @@ class DAO:
         else:
             return self.transaction_wrapper(operation)
 
-
     def add_data(self, table, data):
         def operation(conn):
             table_columns = self.get_table_columns(table, conn)
@@ -214,6 +215,16 @@ class DAO:
             return print(f"Old table size: {table_size}. New table size: {new_table_size}.")
         return self.transaction_wrapper(operation)
 
+    def select_or_delete(self, table, column, criteria=None, action='SELECT'):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement, values = self.get_sql_select_delete(table, column, criteria, action)
+            cursor.execute(statement, values)
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            return
+        return self.transaction_wrapper(operation)
 
 
 
