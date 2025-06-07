@@ -65,7 +65,17 @@ class LogicLayer:
                 if result:
                     select_table, value, columns = result
                     data = [('', columns, '=', value)]
-                    self.delete_record(select_table, data)
+                    if self.delete_record(select_table, data):
+                        print(f"Successfully deleted {columns} {value} from {select_table}")
+
+            if main_menu_choice == 3:
+                selected_table = self.cli.search_all_records()
+                if selected_table:
+                    rows, columns = self.dao.select_or_delete(selected_table, '*')
+                    self.cli.print_results(rows, columns)
+
+
+
 
     def get_columns(self, selected_table):
         return self.dao.get_table_columns(selected_table)

@@ -152,7 +152,7 @@ class DAO:
         else:
             return self.transaction_wrapper(operation)
 
-    def add_data(self, table, data, table_columns, user):
+    def add_data(self, table, data, table_columns, user=None):
         """
 
         :param table string:
@@ -194,12 +194,14 @@ class DAO:
             statement, values = qb.get_sql_select_delete(table, column, criteria, action)
             cursor.execute(statement, values)
             if action.upper() == 'SELECT':
-                result = cursor.fetchall()
-                for row in result:
-                    print(row)
+                rows = cursor.fetchall()
+                columns = [description[0] for description in cursor.description]
+                return rows, columns
             elif action.upper() == 'DELETE':
-                self.log_transaction(conn, user.username, action, table, details=f"Deleted {column} {values} from {table}.")
-                print(f'Successfully deleted data from {table}.')
+                self.log_transaction(conn, user.username, action, table, details=f"{statement} {values}.")
+                return
+
+
 
         return self.transaction_wrapper(operation)
 

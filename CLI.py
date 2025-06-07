@@ -121,13 +121,38 @@ class CLI:
             print(f"{index}: {col_name}")
 
         column_choice = self.validation(len(columns_dict))
+        column = columns_dict[column_choice]
         if column_choice == next_key:
             print("\nReturning to Main Menu\n")
             return
 
-        value = input(f"Enter value to delete from {column_choice} =: ")
+        value = int(input(f"Enter value to delete from {column} =: "))
 
-        return selected_table, value, column_choice
+        return selected_table, value, column
+
+    def search_all_records(self):
+        table_options = {index: key for index, key in enumerate(Schema.Tables, start=1)}
+        next_key = max(table_options.keys()) + 1
+        table_options[next_key] = 'Exit'
+
+        print("\nSelect Table to view")
+        print("**********")
+
+        for key, value in table_options.items():
+            print(f"{key}: {value}")
+
+        choice = self.validation(len(table_options))
+
+        if choice == next_key:
+            print("\nReturning to Main Menu\n")
+            return
+
+        column = table_options[choice]
+
+        return column
+
+    def print_results(self, rows, columns):
+        print(tabulate.tabulate(rows, headers=columns, tablefmt='fancy_grid'))
 
 
 
