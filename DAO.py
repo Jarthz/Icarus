@@ -152,7 +152,16 @@ class DAO:
         else:
             return self.transaction_wrapper(operation)
 
-    def add_data(self, table, data, table_columns):
+    def add_data(self, table, data, table_columns, user):
+        """
+
+        :param table string:
+        :param data tuple of values:
+        :param table_columns tuple of columns for the table schema:
+        :param user object:
+        :return:
+        """
+
         def operation(conn):
             if table_columns is None:
                 print(f"No table columns for table {table}.")
@@ -172,19 +181,26 @@ class DAO:
             cursor.execute(statement, data)
             print(f"Successfully inserted data into {table}.")
 
+            #log transaction
+            self.log_transaction(conn, user.username, 'INSERT', table, details=f"Inserted record with values {data}.")
+
             new_table_size = self.get_row_count(table, conn)
             return print(f"Old table size: {table_size}. New table size: {new_table_size}.")
         return self.transaction_wrapper(operation)
 
-    def select_or_delete(self, table, column, criteria=None, action='SELECT'):
+    def select_or_delete(self, table, column, criteria=None, action='SELECT', user=None):
         def operation(conn):
             cursor = conn.cursor()
             statement, values = qb.get_sql_select_delete(table, column, criteria, action)
             cursor.execute(statement, values)
-            result = cursor.fetchall()
-            for row in result:
-                print(row)
-            return
+            if action.upper() == 'SELECT':
+                result = cursor.fetchall()
+                for row in result:
+                    print(row)
+            elif action.upper() == 'DELETE':
+                self.log_transaction(conn, user.username, action, table, details=f"Deleted {column} {values} from {table}.")
+                print(f'Successfully deleted data from {table}.')
+
         return self.transaction_wrapper(operation)
 
     def get_average_time(self, origin, destination):
@@ -240,6 +256,10 @@ class DAO:
             print(f"Successfully added user {username}.")
         return self.transaction_wrapper(operation)
 
+    def log_transaction(self, conn, username, action, table_name=None, details=None):
+        cursor = conn.cursor()
+        sql_statement = qb.get_sql_transaction_log()
+        cursor.execute(sql_statement, (username, action, table_name, details))
 
 
 

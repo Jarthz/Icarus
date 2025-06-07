@@ -43,7 +43,7 @@ class Schema:
             Username TEXT UNIQUE NOT NULL,
             Password TEXT NOT NULL
         """,
-        "AduitLog": """
+        "AuditLog": """
         LogID INTEGER PRIMARY KEY AUTOINCREMENT,
         Username TEXT NOT NULL,
         Action TEXT NOT NULL,
@@ -75,5 +75,6 @@ class Schema:
         3: ["Search all records", 'search_all'],
         4: ["Search for specific record", 'search'],
         5: ["Update record", 'update'],
-        6: ["Exit", 'exit']
+        6: ['View Audit Log', 'audit_log'],
+        7: ["Exit", 'exit']
     }

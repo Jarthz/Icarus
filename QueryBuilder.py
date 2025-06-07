@@ -6,6 +6,7 @@ class QueryBuilder:
     def get_sql_select_all(table_name):
         return f"SELECT * FROM {table_name}"
 
+    @staticmethod
     def get_sql_select_delete(table_name, column_name, criteria=None, action='SELECT'):
         """
         :param table_name (str):
@@ -141,3 +142,9 @@ class QueryBuilder:
         SELECT Password FROM Users WHERE Username = ?
         """
 
+    @staticmethod
+    def get_sql_transaction_log():
+        return f"""
+        INSERT INTO AuditLog (Username, Action, TableName, Details)
+        VALUES (?, ?, ?, ?)
+        """

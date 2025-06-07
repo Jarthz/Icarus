@@ -9,6 +9,7 @@ class LogicLayer:
         self.dao = dao
         self.max_attempts = 3
         self.cli = cli
+        self.user = None
 
     def authenticate(self):
         attempts = 0
@@ -16,7 +17,10 @@ class LogicLayer:
             username, password = self.cli.prompt_for_login()
             if self.check_credentials(username, password):
                 print("Login Successful")
-                return User(username=username)
+                self.user = User(username=username)
+
+                return self.user
+
             else:
                 attempts += 1
                 print(f"Login failed. Attempts remaining: {self.max_attempts - attempts}\n")
@@ -37,21 +41,39 @@ class LogicLayer:
         return self.dao.transaction_wrapper(operation)
 
     def main_menu(self):
-        main_menu_choice = self.cli.main_menu()
-        action = Schema.main_menu.get(main_menu_choice)
+        while True:
+            main_menu_choice = self.cli.main_menu()
+            action = Schema.main_menu.get(main_menu_choice)
 
-        method_name = action[1]
+            method_name = action[1]
 
-        if method_name == 'exit':
-            print("Exiting program.")
-            exit(0)
+            if method_name == 'exit':
+                print("Exiting program.")
+                exit(0)
 
-        if main_menu_choice == 1:
-            select_table, data, columns = self.cli.add_record(self.dao)
-            self.add_record(select_table, data, columns)
+            if main_menu_choice == 1:
+                result = self.cli.add_record(self.dao)
+                if result:
+                    select_table, data, columns = result
+                    self.add_record(select_table, data, columns)
 
+            if main_menu_choice == 2:
+                selected_column = self.cli.delete_record()
+                column_info = self.dao.get_table_columns(selected_column)
+
+                result = self.cli.delete_record_2(column_info, selected_column)
+                if result:
+                    select_table, value, columns = result
+                    data = [('', columns, '=', value)]
+                    self.delete_record(select_table, data)
+
+    def get_columns(self, selected_table):
+        return self.dao.get_table_columns(selected_table)
 
     def add_record(self, table, data, columns):
-        self.dao.add_data(table, data, columns)
+        self.dao.add_data(table, data, columns, self.user)
+
+    def delete_record(self, table, data):
+        self.dao.select_or_delete(table, '', data, 'DELETE', self.user)
 
 

@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="user login and password">
+    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="add now works from CLI">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI.py" beforeDir="false" afterPath="$PROJECT_DIR$/CLI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
@@ -12,9 +13,7 @@
       <change beforePath="$PROJECT_DIR$/LogicLayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogicLayer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QueryBuilder.py" beforeDir="false" afterPath="$PROJECT_DIR$/QueryBuilder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/User.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/test.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcli.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcli.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +56,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.AirportDAO.executor": "Run",
+    "Python.CLI.executor": "Run",
     "Python.DAO.executor": "Run",
     "Python.DatabaseManager.executor": "Run",
     "Python.QueryBuilder.executor": "Run",
@@ -85,7 +85,7 @@
       <script-mode>FILE</script-mode>
       <method v="2" />
     </configuration>
-    <configuration name="AirportDAO" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="CLI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Icarus" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -99,7 +99,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AirportDAO.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CLI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -180,10 +180,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.testcli" />
+        <item itemvalue="Python.CLI" />
         <item itemvalue="Python.QueryBuilder" />
         <item itemvalue="Database Script.test.sql" />
         <item itemvalue="Python.DAO" />
-        <item itemvalue="Python.AirportDAO" />
       </list>
     </recent_temporary>
   </component>
@@ -209,7 +209,7 @@
       <workItem from="1749149667031" duration="6244000" />
       <workItem from="1749236669359" duration="3760000" />
       <workItem from="1749287845603" duration="9684000" />
-      <workItem from="1749297999987" duration="17932000" />
+      <workItem from="1749297999987" duration="25044000" />
     </task>
     <task id="LOCAL-00001" summary="update databasemanager with connect and close">
       <option name="closed" value="true" />
@@ -315,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749313026471</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add now works from CLI">
+      <option name="closed" value="true" />
+      <created>1749322440476</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1749322440476</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,12 +341,14 @@
     <MESSAGE value="view pilot schedule, update flight info, flights table, refactored where" />
     <MESSAGE value="number of flights per destination or pilot" />
     <MESSAGE value="user login and password" />
-    <option name="LAST_COMMIT_MESSAGE" value="user login and password" />
+    <MESSAGE value="add now works from CLI" />
+    <option name="LAST_COMMIT_MESSAGE" value="add now works from CLI" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Icarus$CLI.coverage" NAME="CLI Coverage Results" MODIFIED="1749328614654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$QueryBuilder.coverage" NAME="QueryBuilder Coverage Results" MODIFIED="1749311173248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DAO.coverage" NAME="DAO Coverage Results" MODIFIED="1749238480545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749321458591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749329158538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DatabaseManager.coverage" NAME="DatabaseManager Coverage Results" MODIFIED="1748894194416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1748896051137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$AirportDAO.coverage" NAME="AirportDAO Coverage Results" MODIFIED="1748981269076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

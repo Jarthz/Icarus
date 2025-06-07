@@ -37,7 +37,7 @@ class CLI:
     def main_menu(self):
         menu_options = Schema.main_menu
 
-        print("Main Menu")
+        print("\nMain Menu")
         print("**********")
         for key, value in menu_options.items():
             print(f"{key}: {value[0]}")
@@ -46,7 +46,7 @@ class CLI:
 
     def add_record(self, dao):
         table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
-        print("Select Table for new record")
+        print("\nSelect Table for new record")
         print("**********")
 
         for key, value in table_options.items():
@@ -55,7 +55,7 @@ class CLI:
         first_add_choice = self.validation(4)
 
         if first_add_choice == 4:
-            print("Return to Main Menu")
+            print("\nReturning to Main Menu\n")
             return
 
         selected_table = table_options[first_add_choice]
@@ -87,6 +87,52 @@ class CLI:
 
         # Insert record via DAO
         return selected_table, data, cols
+
+    def delete_record(self):
+        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
+        print("\nSelect Table to delete record")
+        print("**********")
+
+        for key, value in table_options.items():
+            print(f"{key}: {value}")
+
+        choice = self.validation(4)
+
+        if choice == 4:
+            print("\nReturning to Main Menu\n")
+            return
+
+        selected_table = table_options[choice]
+        return selected_table
+
+    def delete_record_2(self, columns_info, selected_table):
+
+        if not columns_info:
+            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
+            return
+
+        columns_dict = {index: col_name for index, (col_name,_,_) in enumerate(columns_info, start=1)}
+        next_key = max(columns_dict.keys()) + 1
+        columns_dict[next_key] = 'Exit'
+
+        print("\n choose a number to select input column for record deletion from table")
+        print("**********")
+        for index, col_name in columns_dict.items():
+            print(f"{index}: {col_name}")
+
+        column_choice = self.validation(len(columns_dict))
+        if column_choice == next_key:
+            print("\nReturning to Main Menu\n")
+            return
+
+        value = input(f"Enter value to delete from {column_choice} =: ")
+
+        return selected_table, value, column_choice
+
+
+
+
+
 
 
 
