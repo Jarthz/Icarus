@@ -1,8 +1,11 @@
+
 import pandas as pd
 import sqlite3
 import os
 from Schema import Schema
 from QueryBuilder import QueryBuilder as qb
+import bcrypt
+
 
 
 class DAO:
@@ -229,16 +232,15 @@ class DAO:
             return
         return self.transaction_wrapper(operation)
 
-    def test(self, GroupBy):
+    def add_user(self, username, password):
         def operation(conn):
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             cursor = conn.cursor()
-            statement = qb.get_test(GroupBy)
-            cursor.execute(statement)
-            result = cursor.fetchall()
-            for row in result:
-                print(row)
-            return
+            statement = qb.get_sql_add_user()
+            cursor.execute(statement, (username, hashed_password.decode('utf-8')))
+            print(f"Successfully added user {username}.")
         return self.transaction_wrapper(operation)
+
 
 
 

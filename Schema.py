@@ -37,6 +37,11 @@ class Schema:
             PRIMARY KEY (Origin, Destination),
             FOREIGN KEY (Origin) REFERENCES Airports (AirportID),
             FOREIGN KEY (Destination) REFERENCES Airports (AirportID)
+        """,
+        "Users": """
+            UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+            Username TEXT UNIQUE NOT NULL,
+            Password TEXT NOT NULL
         """
     }
 

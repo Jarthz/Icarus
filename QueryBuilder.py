@@ -121,5 +121,23 @@ class QueryBuilder:
         else:
             raise ValueError("Invalid GroupBy parameter. Use 'Destination' or 'PilotID'.")
 
+    @staticmethod
+    def get_sql_validate_user():
+        return f"""
+        SELECT UserID, Password
+        FROM Users
+        WHERE Username = ?
+        """
 
+    @staticmethod
+    def get_sql_add_user():
+        return f"""
+        INSERT INTO Users (Username, Password) VALUES (?, ?)
+        """
+
+    @staticmethod
+    def get_sql_user():
+        return f"""
+        SELECT Password FROM Users WHERE Username = ?
+        """
 
