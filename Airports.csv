@@ -1,4 +1,4 @@
-﻿Airport_ID,AirportCode,AirportName,AirportCountry,Runways
+﻿AirportID,AirportCode,AirportName,AirportCountry,Runways
 1,JFK,JFK International,USA,4
 2,LHR,Heathrow,UK,2
 3,CDG,Charles de Gaulle,France,4

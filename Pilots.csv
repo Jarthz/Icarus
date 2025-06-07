@@ -1,4 +1,4 @@
-﻿Pilot_ID,FirstName,LastName,LicenseNumber,LicenseCountry,ExperienceYears,Rank,Email
+﻿PilotID,FirstName,LastName,LicenseNumber,LicenseCountry,ExperienceYears,Rank,Email
 1,John,Smith,P-001,USA,15,Captain,john.smith@example.com
 2,Alice,Johnson,P-002,UK,10,First Officer,alice.j@example.co.uk
 3,Hiroshi,Tanaka,P-003,Japan,12,Captain,hiroshi.t@example.jp

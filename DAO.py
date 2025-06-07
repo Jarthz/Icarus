@@ -185,6 +185,41 @@ class DAO:
             return
         return self.transaction_wrapper(operation)
 
+    def get_average_time(self, origin, destination):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement = qb.get_sql_average_time()
+            values = (origin, destination)
+            cursor.execute(statement, values)
+            print(statement)
+            print(values)
+
+            result = cursor.fetchone()
+            print(result)
+            return result
+        return self.transaction_wrapper(operation)
+
+    def update(self, table, change, criteria=None):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement, values= qb.get_sql_update(table, change, criteria)
+            cursor.execute(statement, values)
+            print(f"Successfully updated data from {table} with change {change}.")
+        return self.transaction_wrapper(operation)
+
+    def get_pilot_schedule(self, PilotID):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement = qb.get_sql_pilot_schedule()
+            cursor.execute(statement, (PilotID,))
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            return
+        return self.transaction_wrapper(operation)
+
+
+
 
 
 
