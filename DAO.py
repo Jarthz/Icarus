@@ -218,6 +218,28 @@ class DAO:
             return
         return self.transaction_wrapper(operation)
 
+    def get_number_of_flights(self, GroupBy):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement = qb.get_sql_number_of_flights(GroupBy)
+            cursor.execute(statement)
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            return
+        return self.transaction_wrapper(operation)
+
+    def test(self, GroupBy):
+        def operation(conn):
+            cursor = conn.cursor()
+            statement = qb.get_test(GroupBy)
+            cursor.execute(statement)
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            return
+        return self.transaction_wrapper(operation)
+
 
 
 

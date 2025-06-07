@@ -62,6 +62,7 @@ class QueryBuilder:
             WHERE Origin = ? AND Destination = ?
             """
 
+    @staticmethod
     def get_sql_update(table_name, change, criteria):
         sql_statement =f"""UPDATE {table_name} SET {change}"""
         values = []
@@ -79,7 +80,7 @@ class QueryBuilder:
             f.ArrivalTime,
             ao.AirportCode AS OriginCode,
             ao.AirportName AS OriginName,
-            af.AirportCode as DestinationCode,
+            af.AirportCode AS DestinationCode,
             af.AirportName AS DestinationName,
             f.Status
         FROM Flights f
@@ -88,7 +89,37 @@ class QueryBuilder:
         JOIN Pilots p ON f.PilotID = p.PilotID
         WHERE f.PilotID = ?
         ORDER BY f.DepartureDate, f.DepartureTime;
-"""
+        """
         return sql_statement
+
+    @staticmethod
+    def get_sql_number_of_flights(GroupBy):
+        if GroupBy == 'Destination':
+            return f"""
+            SELECT 
+                a.AirportCode AS GroupByValue,
+                a.AirportName,
+                COUNT(f.FlightID) AS NumberOfFlights
+            FROM Flights f
+            JOIN Airports a ON f.Destination = a.AirportID
+            JOIN Pilots p ON f.PilotID = p.PilotID
+            GROUP BY f.Destination
+            ORDER BY NumberOfFlights DESC;
+            """
+        elif GroupBy == 'PilotID':
+            return f"""
+            SELECT 
+                p.FirstName || ' ' || p.LastName AS GroupByValue,
+                p.LicenseNumber,
+                COUNT(f.FlightID) AS NumberOfFlights
+            FROM Flights f
+            JOIN Airports a ON f.Destination = a.AirportID
+            JOIN Pilots p ON f.PilotID = p.PilotID
+            GROUP BY f.PilotID
+            ORDER BY NumberOfFlights DESC;
+            """
+        else:
+            raise ValueError("Invalid GroupBy parameter. Use 'Destination' or 'PilotID'.")
+
 
 
