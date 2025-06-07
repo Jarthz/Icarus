@@ -8,7 +8,7 @@ if __name__ == "__main__":
     cli = CLI.CLI()
     dbm = DatabaseManager.DatabaseManager()
     dao = DAO.DAO(dbm)
-    logic = LogicLayer.LogicLayer(dao)
+    logic = LogicLayer.LogicLayer(dao, cli)
 
     dao.create_table()
     dao.drop_table()
@@ -19,4 +19,5 @@ if __name__ == "__main__":
 
 
     cli.display_welcome_screen()
-    logic.authenticate(cli)
+    user = logic.authenticate()
+    logic.main_menu()

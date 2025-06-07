@@ -9,13 +9,13 @@ class Schema:
         """,
         "Pilots": """
             PilotID INTEGER PRIMARY KEY AUTOINCREMENT,
-                FirstName TEXT NOT NULL,
-                LastName TEXT NOT NULL,
-                LicenseNumber TEXT UNIQUE NOT NULL,
-                LicenseCountry TEXT NOT NULL,
-                ExperienceYears INTEGER NOT NULL,
-                Rank TEXT NOT NULL,
-                Email TEXT
+            FirstName TEXT NOT NULL,
+            LastName TEXT NOT NULL,
+            LicenseNumber TEXT UNIQUE NOT NULL,
+            LicenseCountry TEXT NOT NULL,
+            ExperienceYears INTEGER NOT NULL,
+            Rank TEXT NOT NULL,
+            Email TEXT
         """,
         "Flights": """
             FlightID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +42,14 @@ class Schema:
             UserID INTEGER PRIMARY KEY AUTOINCREMENT,
             Username TEXT UNIQUE NOT NULL,
             Password TEXT NOT NULL
+        """,
+        "AduitLog": """
+        LogID INTEGER PRIMARY KEY AUTOINCREMENT,
+        Username TEXT NOT NULL,
+        Action TEXT NOT NULL,
+        TableName TEXT, 
+        Timestamp TEXT DEFAULT (datetime('now', 'localtime')),
+        Details TEXT
         """
     }
 
@@ -57,3 +65,15 @@ class Schema:
                     column_name = line_clean.split()[0]
                     auto_increment_cols.append(column_name)
         return auto_increment_cols
+
+    """
+    for use in the CLI and the logic layer. Data Control by centralisation
+    """
+    main_menu = {
+        1: ["Add new record", "add_record"],
+        2: ["Delete record", 'delete'],
+        3: ["Search all records", 'search_all'],
+        4: ["Search for specific record", 'search'],
+        5: ["Update record", 'update'],
+        6: ["Exit", 'exit']
+    }

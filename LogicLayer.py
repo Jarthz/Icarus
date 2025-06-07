@@ -1,19 +1,22 @@
 from tabulate import tabulate
 from QueryBuilder import QueryBuilder as qb
 import bcrypt
+from User import User
+from Schema import Schema
 
 class LogicLayer:
-    def __init__(self, dao):
+    def __init__(self, dao, cli):
         self.dao = dao
         self.max_attempts = 3
+        self.cli = cli
 
-    def authenticate(self, cli):
+    def authenticate(self):
         attempts = 0
         while attempts < self.max_attempts:
-            username, password = cli.prompt_for_login()
+            username, password = self.cli.prompt_for_login()
             if self.check_credentials(username, password):
                 print("Login Successful")
-                return True
+                return User(username=username)
             else:
                 attempts += 1
                 print(f"Login failed. Attempts remaining: {self.max_attempts - attempts}\n")
@@ -32,3 +35,23 @@ class LogicLayer:
                     return True
             return False
         return self.dao.transaction_wrapper(operation)
+
+    def main_menu(self):
+        main_menu_choice = self.cli.main_menu()
+        action = Schema.main_menu.get(main_menu_choice)
+
+        method_name = action[1]
+
+        if method_name == 'exit':
+            print("Exiting program.")
+            exit(0)
+
+        if main_menu_choice == 1:
+            select_table, data, columns = self.cli.add_record(self.dao)
+            self.add_record(select_table, data, columns)
+
+
+    def add_record(self, table, data, columns):
+        self.dao.add_data(table, data, columns)
+
+

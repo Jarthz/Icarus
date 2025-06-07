@@ -140,23 +140,23 @@ class DAO:
         def operation(inner_conn):
             cursor = inner_conn.cursor()
             cursor.execute(f"PRAGMA table_info({table_name})")
-            return [row[1] for row in cursor.fetchall()]
+            columns = []
+            for row in cursor.fetchall():
+                col_name = row[1]
+                col_type = row[2]
+                is_primary_key = row[5]
+                columns.append((col_name, col_type, is_primary_key))
+            return columns
         if conn:
             return operation(conn)
         else:
             return self.transaction_wrapper(operation)
 
-    def add_data(self, table, data):
+    def add_data(self, table, data, table_columns):
         def operation(conn):
-            table_columns = self.get_table_columns(table, conn)
             if table_columns is None:
                 print(f"No table columns for table {table}.")
                 return
-
-            auto_increment_cols = Schema.get_auto_increment(table)
-            for col in auto_increment_cols:
-                if col in table_columns:
-                    table_columns.remove(col)
 
             table_size = self.get_row_count(table, conn)
 
@@ -165,12 +165,11 @@ class DAO:
                 print(f"Columns: {table_columns}")
                 return
 
-            data_tuple = tuple(data)
             cursor = conn.cursor()
             placeholders = qb.get_placeholders(table_columns)
             statement = qb.get_sql_insert_statement(table, table_columns, placeholders)
 
-            cursor.execute(statement, data_tuple)
+            cursor.execute(statement, data)
             print(f"Successfully inserted data into {table}.")
 
             new_table_size = self.get_row_count(table, conn)
@@ -240,6 +239,8 @@ class DAO:
             cursor.execute(statement, (username, hashed_password.decode('utf-8')))
             print(f"Successfully added user {username}.")
         return self.transaction_wrapper(operation)
+
+
 
 
 

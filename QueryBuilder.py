@@ -37,7 +37,7 @@ class QueryBuilder:
         return sql_statement, values
 
     def get_sql_create_table(table_name, schema):
-        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
+        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema}) STRICT"
 
     def get_placeholders(columns):
         return ",".join(['?'] * len(columns))
