@@ -1,7 +1,3 @@
-from pandas.core.interchange import column
-from pandas.io.sas.sas_constants import column_type_length
-
-from LogicLayer import LogicLayer as logic
 import tabulate
 from Schema import Schema
 
@@ -10,6 +6,7 @@ class CLI:
         self.username = None
 
     def display_welcome_screen(self):
+        print("\n")
         print("=" * 50)
         print("Welcome to Icarus")
         print("=" * 50)
@@ -36,7 +33,7 @@ class CLI:
                 print("Invalid input, please choose a valid integer")
 
     def main_menu(self):
-        menu_options = Schema.main_menu
+        menu_options = Schema.main_menu.copy()
 
         print("\nMain Menu")
         print("**********")
@@ -89,24 +86,7 @@ class CLI:
         # Insert record via DAO
         return selected_table, data, cols
 
-    def delete_record(self):
-        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
-        print("\nSelect Table to delete record")
-        print("**********")
-
-        for key, value in table_options.items():
-            print(f"{key}: {value}")
-
-        choice = self.validation(4)
-
-        if choice == 4:
-            print("\nReturning to Main Menu\n")
-            return
-
-        selected_table = table_options[choice]
-        return selected_table
-
-    def delete_record_2(self, columns_info, selected_table):
+    def delete_record(self, columns_info, selected_table):
 
         if not columns_info:
             print(f"Error: Could not retrieve columns for table '{selected_table}'.")
@@ -116,7 +96,7 @@ class CLI:
         next_key = max(columns_dict.keys()) + 1
         columns_dict[next_key] = 'Exit'
 
-        print("\n choose a number to select input column for record deletion from table")
+        print("\n Enter input column for record deletion from table")
         print("**********")
         for index, col_name in columns_dict.items():
             print(f"{index}: {col_name}")
@@ -148,7 +128,7 @@ class CLI:
         print(tabulate.tabulate(rows, headers=columns, tablefmt='fancy_grid'))
 
     def get_table_dictionary(self):
-        table_options = {index: key for index, key in enumerate(Schema.Tables, start=1)}
+        table_options = {index: key for index, key in enumerate(Schema.Tables.copy(), start=1)}
         next_key = max(table_options.keys()) + 1
         table_options[next_key] = 'Exit'
 
@@ -321,7 +301,36 @@ class CLI:
         #add change and criteria list of tuples
         return change_list, criteria_list
 
+    def get_report(self):
+        print("\n")
+        print("="*20)
+        print("Available Reports\n")
 
+        reports = Schema.reports.copy()
+        next_key = max(reports.keys()) + 1
+        reports[next_key] = ['Return to Main Menu']
 
+        for key, value in reports.items():
+            print(f"{key}: {value[0]}")
+
+        choice = self.validation(len(reports))
+
+        if choice == next_key:
+            print("Returning to Main Menu\n")
+            return
+
+        return choice
+
+    def get_pilot_id(self):
+        print("\n")
+        print("="*20)
+        value = input("Enter PilotID: ")
+        return value
+
+    def get_destination(self):
+        print("\n")
+        print("="*20)
+        value = input("Enter Destination Code: ")
+        return value
 
 

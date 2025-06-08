@@ -82,3 +82,9 @@ class Schema:
         7: ['Get Canned Reports', 'get_reports'],
         8: ["Exit", 'exit']
     }
+
+    reports = {
+        1: ["Pilot Schedule", ('get_pilot_schedule', 'PilotID')],
+        2: ["Numer of flights to by Destination", ('get_number_of_flights', 'Destination')],
+        3: ["Number of flights by PilotID", ('get_number_of_flights', 'PilotID')]
+    }

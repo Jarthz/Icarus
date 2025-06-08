@@ -62,10 +62,10 @@ class LogicLayer:
                     self.add_record(select_table, data, columns)
 
             if main_menu_choice == 2:
-                selected_table = self.cli.delete_record()
+                selected_table = self.cli.get_update_or_delete_table('delete')
                 column_info = self.dao.get_table_columns(selected_table)
 
-                result = self.cli.delete_record_2(column_info, selected_table)
+                result = self.cli.delete_record(column_info, selected_table)
                 if result:
                     select_table, value, columns = result
                     data = [('', columns, '=', value)]
@@ -101,12 +101,27 @@ class LogicLayer:
             #will eventually abstract away that option in menu 3 based on
             if main_menu_choice == 6:
                 selected_table = 'AuditLog'
-                row, columns = self.dao.select_or_delete(selected_table, "*")
-                self.cli.print_results(row, columns)
+                result = self.dao.select_or_delete(selected_table, "*")
+                self.safely_print(result)
 
-            #if main_menu_choice == 7:
+            if main_menu_choice == 7:
+                selected_report = self.cli.get_report()
+                if selected_report == 1:
+                    pilot_id = self.cli.get_pilot_id()
+                    result = self.dao.get_pilot_schedule(pilot_id)
+                    self.safely_print(result)
+                elif selected_report == 2:
+                    result = self.dao.get_number_of_flights('Destination')
+                    self.safely_print(result)
+                elif selected_report == 3:
+                    result = self.dao.get_number_of_flights('Pilot')
+                    self.safely_print(result)
 
 
+    def safely_print(self, result):
+        if result:
+            row, coluns = result
+            self.cli.print_results(row, coluns)
 
     def convert_update_to_where_list(self, update_list, operator='OR'):
         return [

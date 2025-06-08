@@ -112,7 +112,7 @@ class DAO:
         conn = self.db_manager.connect()
         if not conn:
             print("No database connection.")
-            return None
+            return
 
         result = None
         try:
@@ -229,11 +229,12 @@ class DAO:
         def operation(conn):
             cursor = conn.cursor()
             statement = qb.get_sql_pilot_schedule()
+            print(statement)
+            print((PilotID, ))
             cursor.execute(statement, (PilotID,))
-            result = cursor.fetchall()
-            for row in result:
-                print(row)
-            return
+            rows = cursor.fetchall()
+            columns = [description[0] for description in cursor.description]
+            return rows, columns
         return self.transaction_wrapper(operation)
 
     def get_number_of_flights(self, GroupBy):
@@ -241,10 +242,9 @@ class DAO:
             cursor = conn.cursor()
             statement = qb.get_sql_number_of_flights(GroupBy)
             cursor.execute(statement)
-            result = cursor.fetchall()
-            for row in result:
-                print(row)
-            return
+            rows = cursor.fetchall()
+            columns = [description[0] for description in cursor.description]
+            return rows, columns
         return self.transaction_wrapper(operation)
 
     def add_user(self, username, password):

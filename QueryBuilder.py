@@ -111,15 +111,15 @@ class QueryBuilder:
             p.FirstName || ' ' || p.LastName AS PilotName,
             f.FlightID,
             f.DepartureDate,
-            f.ArrivalTime,
+            f.DepartureTime,
             ao.AirportCode AS OriginCode,
             ao.AirportName AS OriginName,
             af.AirportCode AS DestinationCode,
             af.AirportName AS DestinationName,
             f.Status
         FROM Flights f
-        JOIN Airports ao ON f.Origin = ao.AirportID
-        JOIN Airports af ON f.Destination = af.AirportID
+        JOIN Airports ao ON f.Origin = ao.AirportCode
+        JOIN Airports af ON f.Destination = af.AirportCode
         JOIN Pilots p ON f.PilotID = p.PilotID
         WHERE f.PilotID = ?
         ORDER BY f.DepartureDate, f.DepartureTime;
@@ -131,23 +131,24 @@ class QueryBuilder:
         if GroupBy == 'Destination':
             return f"""
             SELECT 
-                a.AirportCode AS GroupByValue,
+                a.AirportCode,
                 a.AirportName,
                 COUNT(f.FlightID) AS NumberOfFlights
             FROM Flights f
-            JOIN Airports a ON f.Destination = a.AirportID
+            JOIN Airports a ON f.Destination = a.AirportCode
             JOIN Pilots p ON f.PilotID = p.PilotID
             GROUP BY f.Destination
             ORDER BY NumberOfFlights DESC;
             """
-        elif GroupBy == 'PilotID':
+        elif GroupBy == 'Pilot':
             return f"""
             SELECT 
-                p.FirstName || ' ' || p.LastName AS GroupByValue,
+                p.FirstName || ' ' || p.LastName AS Pilot,
+                p.PilotID,
                 p.LicenseNumber,
                 COUNT(f.FlightID) AS NumberOfFlights
             FROM Flights f
-            JOIN Airports a ON f.Destination = a.AirportID
+            JOIN Airports a ON f.Destination = a.AirportCode
             JOIN Pilots p ON f.PilotID = p.PilotID
             GROUP BY f.PilotID
             ORDER BY NumberOfFlights DESC;
