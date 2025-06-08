@@ -1,3 +1,4 @@
+from pandas.core.interchange import column
 from pandas.io.sas.sas_constants import column_type_length
 
 from LogicLayer import LogicLayer as logic
@@ -166,11 +167,11 @@ class CLI:
 
         criteria_list = []
 
-        while True:
+        columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
+        next_key = max(columns_dict.keys()) + 1
+        columns_dict[next_key] = 'Exit'
 
-            columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
-            next_key = max(columns_dict.keys()) + 1
-            columns_dict[next_key] = 'Exit'
+        while True:
 
             #first input doesn't need an and/or operator so loop only when the list has a value
             if criteria_list:
@@ -220,29 +221,104 @@ class CLI:
         selected_table = table_options[choice]
         return selected_table
 
-    def get_update_table_value(self, columns_info, selected_table):
+    def get_update_table_value(self, selected_table, columns_info):
+        """
+        to do,
+        1) get columns to update
+        2) get column values to update to
+        3) make list for multi updates
+        4) criteria list like specific search
+        5) get AND/OR
+        6) get columns
+        7) get operator =><
+        8) get value
+        :param columns_info:
+        :param selected_table:
+        :return:
+        """
+
         if not columns_info:
             print(f"Error: Could not retrieve columns for table '{selected_table}'.")
             return
 
-        columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
+        # Skip auto-increment PKs (assume PK == 1)
+        columns = tuple(
+            col_name
+            for col_name, col_type, pk in columns_info
+            if pk == 0
+        )
+
+        #remove the primary key from available choices
+        columns_dict = {index: col_name for index, col_name in enumerate(columns, start=1)}
+
+        #add an exit choice
         next_key = max(columns_dict.keys()) + 1
-        columns_dict[next_key] = 'Exit'
+        columns_dict[next_key] = 'Finish selecting columns'
 
-        print(f"\n choose a number to select input column for record {type} from table")
-        print("**********")
-        for index, col_name in columns_dict.items():
-            print(f"{index}: {col_name}")
+        change_list = []
+        columns_dict_reduced = columns_dict.copy()
 
-        column_choice = self.validation(len(columns_dict))
-        column = columns_dict[column_choice]
-        if column_choice == next_key:
-            print("\nReturning to Main Menu\n")
-            return
 
-        value = int(input(f"Enter value to delete from {column} =: "))
+        while True:
+            if change_list:
+                print(f"\n Enter a number to select an ADDITIONAL column to update")
+            else:
+                print("\n Enter a number to select a column to update")
+            print("**********")
+            for index, col_name in columns_dict_reduced.items():
+                print(f"{index}: {col_name}")
 
-        return selected_table, value, column
+            column_choice_int = self.validation(len(columns_dict_reduced))
+            print("col choice: ", column_choice_int)
+
+            #exit out on exit choice
+            if column_choice_int == len(columns_dict_reduced):
+                if not change_list:
+                    print("\nNo columns selected, returning to Main Menu\n")
+                    return
+                break ## need to handle this better
+
+            #convert integer choice to string
+            column_update = columns_dict_reduced[column_choice_int]
+
+            value_update = input(f"Enter new value for {column_update}: ").strip()
+            change_list.append((column_update, "=", value_update))
+
+            del columns_dict_reduced[column_choice_int]
+            columns_dict_reduced = {new_index: value for new_index, value in enumerate(columns_dict_reduced.values(), start=1)}
+
+        criteria_list = []
+        while True:
+
+            # first input doesn't need an and/or operator so loop only when the list has a value
+            if criteria_list:
+                logical_operator = input(
+                    "Optional: Enter logicial (AND/OR) to chain conditions, or press enter to skip: ").strip().upper()
+                if logical_operator not in ['AND', 'OR']:
+                    print("No logical operator, not chaining conditions.")
+                    return change_list, criteria_list
+            else:
+                logical_operator = ''
+
+            print("\n You MUST enter a number to select column to specify condition for WHERE updates take place")
+            print("**********")
+            for index, col_name in columns_dict.items():
+                print(f"{index}: {col_name}")
+
+            column_choice = self.validation(len(columns_dict))
+            column_where = columns_dict[column_choice]
+            if column_choice == next_key:
+                print("\nReturning to Main Menu\n")
+                return
+
+            comparison_operator = input(
+                f"Enter comparison operator to search from {column_where} =, <>, <, >, etc : ").strip()
+            value_where = input(f'Enter value to search from {column_where}: ').strip()
+
+            criteria_list.append((logical_operator, column_where, comparison_operator, value_where))
+
+        #add change and criteria list of tuples
+        return change_list, criteria_list
 
 
 

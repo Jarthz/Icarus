@@ -40,6 +40,10 @@ class LogicLayer:
             return False
         return self.dao.transaction_wrapper(operation)
 
+    def convert_update_list(self, update_list):
+        update_string = ", ".join(f"{col} {operation} '{value}'" for col, operation, value in update_list)
+        return update_string
+
     def main_menu(self):
         while True:
             main_menu_choice = self.cli.main_menu()
@@ -85,17 +89,18 @@ class LogicLayer:
                     self.cli.print_results(rows, columns)
 
             if main_menu_choice == 5:
-                selected_table = self.cli.update_or_delete_table('update')
+                selected_table = self.cli.get_update_or_delete_table('update')
                 if selected_table:
                     column_info = self.dao.get_table_columns(selected_table)
+                    update_list, where_list = self.cli.get_update_table_value(selected_table, column_info)
+                    self.update_record(selected_table, update_list, where_list)
 
 
-
-
-
-
-
-
+    def convert_update_to_where_list(self, update_list, operator='OR'):
+        return [
+            ('' if idx == 0 else operator, col, op, val)
+            for idx, (col, op, val) in enumerate(update_list)
+        ]
 
     def get_columns(self, selected_table):
         return self.dao.get_table_columns(selected_table)
@@ -106,4 +111,10 @@ class LogicLayer:
     def delete_record(self, table, data):
         self.dao.select_or_delete(table, '', data, 'DELETE', self.user)
 
+    def update_record(self, selected_table, update_list, where_list):
+        update_string = self.convert_update_list(update_list)
+        self.dao.update(selected_table, update_string, where_list, self.user)
+        update_to_where = self.convert_update_to_where_list(update_list)
+        rows, columns = self.dao.select_or_delete(selected_table, "*", update_to_where)
+        self.cli.print_results(rows, columns)
 

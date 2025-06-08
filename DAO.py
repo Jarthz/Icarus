@@ -192,8 +192,6 @@ class DAO:
         def operation(conn):
             cursor = conn.cursor()
             statement, values = qb.get_sql_select_delete(table, column, criteria, action)
-            print(statement)
-            print(values)
             cursor.execute(statement, values)
             if action.upper() == 'SELECT':
                 rows = cursor.fetchall()
@@ -202,9 +200,6 @@ class DAO:
             elif action.upper() == 'DELETE':
                 self.log_transaction(conn, user.username, action, table, details=f"{statement} {values}.")
                 return [], []
-
-
-
         return self.transaction_wrapper(operation)
 
     def get_average_time(self, origin, destination):
@@ -221,12 +216,13 @@ class DAO:
             return result
         return self.transaction_wrapper(operation)
 
-    def update(self, table, change, criteria=None):
+    def update(self, table, change, criteria=None, user=None):
         def operation(conn):
             cursor = conn.cursor()
             statement, values= qb.get_sql_update(table, change, criteria)
             cursor.execute(statement, values)
             print(f"Successfully updated data from {table} with change {change}.")
+            self.log_transaction(conn, user.username, "UPDATE", table, details=f"{statement} {values}.")
         return self.transaction_wrapper(operation)
 
     def get_pilot_schedule(self, PilotID):
