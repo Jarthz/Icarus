@@ -3,9 +3,6 @@ from prometheus_client import values
 
 class QueryBuilder:
 
-    def get_sql_select_all(table_name):
-        return f"SELECT * FROM {table_name}"
-
     @staticmethod
     def get_sql_select_delete(table_name, column_name, criteria=None, action='SELECT'):
         """
@@ -26,6 +23,8 @@ class QueryBuilder:
             sql_statement, values = QueryBuilder.get_sql_where(criteria, sql_statement)
         return sql_statement, values
 
+    #use paramatisation to defend from sql injection
+    @staticmethod
     def get_sql_where(criteria, sql_statement):
         values = []
         where_clause = []
@@ -37,25 +36,29 @@ class QueryBuilder:
         sql_statement += "".join(where_clause)
         return sql_statement, values
 
+    @staticmethod
     def get_sql_create_table(table_name, schema):
         return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema}) STRICT"
 
+    #for paramatisation
+    @staticmethod
     def get_placeholders(columns):
         return ",".join(['?'] * len(columns))
 
+    @staticmethod
     def get_sql_insert_statement(table_name, columns, placeholders):
         return f"""
             INSERT INTO {table_name} ({','.join(columns)})
             VALUES ({placeholders})
             """
-
+    @staticmethod
     def get_sql_average_time(self):
         return f"""
             SELECT AverageJourneyTime AS avg_time
             FROM RouteTimes
             WHERE Origin = ? AND Destination = ?
             """
-
+    @staticmethod
     def get_sql_arrival_times(self):
         return f"""
             SELECT ArrivalTime
@@ -164,5 +167,5 @@ class QueryBuilder:
             ORDER BY NumberOfFlights DESC;
             """
         else:
-            raise ValueError("Invalid GroupBy parameter. Use 'Destination' or 'PilotID'.")
+            raise ValueError("Invalid GroupBy parameter. Use 'Destination', 'Pilot' or 'Origin'.")
 

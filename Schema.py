@@ -30,26 +30,18 @@ class Schema:
             FOREIGN KEY (Destination) REFERENCES Airports (AirportCode),
             FOREIGN KEY (PilotID) REFERENCES Pilots (PilotID)
         """,
-        "RouteTimes": """
-            Origin INTEGER NOT NULL,
-            Destination INTEGER NOT NULL,
-            AverageJourneyTime INTEGER NOT NULL,
-            PRIMARY KEY (Origin, Destination),
-            FOREIGN KEY (Origin) REFERENCES Airports (AirportID),
-            FOREIGN KEY (Destination) REFERENCES Airports (AirportID)
-        """,
         "Users": """
             UserID INTEGER PRIMARY KEY AUTOINCREMENT,
             Username TEXT UNIQUE NOT NULL,
             Password TEXT NOT NULL
         """,
         "AuditLog": """
-        LogID INTEGER PRIMARY KEY AUTOINCREMENT,
-        Username TEXT NOT NULL,
-        Action TEXT NOT NULL,
-        TableName TEXT, 
-        Timestamp TEXT DEFAULT (datetime('now', 'localtime')),
-        Details TEXT
+            LogID INTEGER PRIMARY KEY AUTOINCREMENT,
+            Username TEXT NOT NULL,
+            Action TEXT NOT NULL,
+            TableName TEXT, 
+            Timestamp TEXT DEFAULT (datetime('now', 'localtime')),
+            Details TEXT
         """
     }
 

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     dao.create_table()
     dao.drop_table()
     dao.create_table()
-    files = ['Airports.csv', 'Pilots.csv', 'RouteTimes.csv', 'Flights.csv']
+    files = ['Airports.csv', 'Pilots.csv', 'Flights.csv']
     dao.insert_legacy_data(files)
     dao.add_user("admin", "Password123")
 
