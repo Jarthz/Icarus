@@ -93,7 +93,19 @@ class LogicLayer:
                 if selected_table:
                     column_info = self.dao.get_table_columns(selected_table)
                     update_list, where_list = self.cli.get_update_table_value(selected_table, column_info)
+                    if not update_list or not where_list:
+                        continue
                     self.update_record(selected_table, update_list, where_list)
+
+            #this can be done in menu 3
+            #will eventually abstract away that option in menu 3 based on
+            if main_menu_choice == 6:
+                selected_table = 'AuditLog'
+                row, columns = self.dao.select_or_delete(selected_table, "*")
+                self.cli.print_results(row, columns)
+
+            #if main_menu_choice == 7:
+
 
 
     def convert_update_to_where_list(self, update_list, operator='OR'):
@@ -117,4 +129,6 @@ class LogicLayer:
         update_to_where = self.convert_update_to_where_list(update_list)
         rows, columns = self.dao.select_or_delete(selected_table, "*", update_to_where)
         self.cli.print_results(rows, columns)
+
+
 

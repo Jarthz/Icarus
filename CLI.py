@@ -258,7 +258,6 @@ class CLI:
         change_list = []
         columns_dict_reduced = columns_dict.copy()
 
-
         while True:
             if change_list:
                 print(f"\n Enter a number to select an ADDITIONAL column to update")
@@ -275,7 +274,7 @@ class CLI:
             if column_choice_int == len(columns_dict_reduced):
                 if not change_list:
                     print("\nNo columns selected, returning to Main Menu\n")
-                    return
+                    return [], []
                 break ## need to handle this better
 
             #convert integer choice to string
@@ -300,7 +299,7 @@ class CLI:
             else:
                 logical_operator = ''
 
-            print("\n You MUST enter a number to select column to specify condition for WHERE updates take place")
+            print("\n You MUST enter a number to select a column and specify a condition for WHERE updates take place")
             print("**********")
             for index, col_name in columns_dict.items():
                 print(f"{index}: {col_name}")
@@ -308,8 +307,10 @@ class CLI:
             column_choice = self.validation(len(columns_dict))
             column_where = columns_dict[column_choice]
             if column_choice == next_key:
-                print("\nReturning to Main Menu\n")
-                return
+                if not criteria_list:
+                    print("\nError, you didn't input any criteria. Returning to Main Menu\n")
+                    return [], []
+                break
 
             comparison_operator = input(
                 f"Enter comparison operator to search from {column_where} =, <>, <, >, etc : ").strip()

@@ -70,6 +70,39 @@ class QueryBuilder:
         if criteria:
             sql_statement, values = QueryBuilder.get_sql_where(criteria, sql_statement)
         return sql_statement, values
+#####################################
+### authentication section #########
+
+    @staticmethod
+    def get_sql_validate_user():
+        return f"""
+        SELECT UserID, Password
+        FROM Users
+        WHERE Username = ?
+        """
+
+    @staticmethod
+    def get_sql_add_user():
+        return f"""
+        INSERT INTO Users (Username, Password) VALUES (?, ?)
+        """
+
+    @staticmethod
+    def get_sql_user():
+        return f"""
+        SELECT Password FROM Users WHERE Username = ?
+        """
+
+    @staticmethod
+    def get_sql_transaction_log():
+        return f"""
+        INSERT INTO AuditLog (Username, Action, TableName, Details)
+        VALUES (?, ?, ?, ?)
+        """
+
+######################################
+###### canned reports section ########
+
 
     @staticmethod
     def get_sql_pilot_schedule():
@@ -121,32 +154,4 @@ class QueryBuilder:
             """
         else:
             raise ValueError("Invalid GroupBy parameter. Use 'Destination' or 'PilotID'.")
-
-    @staticmethod
-    def get_sql_validate_user():
-        return f"""
-        SELECT UserID, Password
-        FROM Users
-        WHERE Username = ?
-        """
-
-    @staticmethod
-    def get_sql_add_user():
-        return f"""
-        INSERT INTO Users (Username, Password) VALUES (?, ?)
-        """
-
-    @staticmethod
-    def get_sql_user():
-        return f"""
-        SELECT Password FROM Users WHERE Username = ?
-        """
-
-    @staticmethod
-    def get_sql_transaction_log():
-        return f"""
-        INSERT INTO AuditLog (Username, Action, TableName, Details)
-        VALUES (?, ?, ?, ?)
-        """
-
 

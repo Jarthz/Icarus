@@ -67,7 +67,10 @@ class Schema:
         return auto_increment_cols
 
     """
-    for use in the CLI and the logic layer. Data Control by centralisation
+    for use in the CLI and the logic layer. Data Control by centralisation. 
+    TODO utilising the method names == item 2 eventually for more dynamic
+    This was done for value 'exit' method is dynamic to execute even when inserting new keys   
+    
     """
     main_menu = {
         1: ["Add new record", "add_record"],
@@ -76,5 +79,6 @@ class Schema:
         4: ["Search for specific record", 'search'],
         5: ["Update record", 'update'],
         6: ['View Audit Log', 'audit_log'],
-        7: ["Exit", 'exit']
+        7: ['Get Canned Reports', 'get_reports'],
+        8: ["Exit", 'exit']
     }
