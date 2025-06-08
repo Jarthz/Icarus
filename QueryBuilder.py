@@ -70,6 +70,7 @@ class QueryBuilder:
         if criteria:
             sql_statement, values = QueryBuilder.get_sql_where(criteria, sql_statement)
         return sql_statement, values
+
 #####################################
 ### authentication section #########
 
@@ -136,7 +137,6 @@ class QueryBuilder:
                 COUNT(f.FlightID) AS NumberOfFlights
             FROM Flights f
             JOIN Airports a ON f.Destination = a.AirportCode
-            JOIN Pilots p ON f.PilotID = p.PilotID
             GROUP BY f.Destination
             ORDER BY NumberOfFlights DESC;
             """
@@ -148,9 +148,19 @@ class QueryBuilder:
                 p.LicenseNumber,
                 COUNT(f.FlightID) AS NumberOfFlights
             FROM Flights f
-            JOIN Airports a ON f.Destination = a.AirportCode
             JOIN Pilots p ON f.PilotID = p.PilotID
             GROUP BY f.PilotID
+            ORDER BY NumberOfFlights DESC;
+            """
+        elif GroupBy == 'Origin':
+            return f"""
+            SELECT 
+                a.AirportCode,
+                a.AirportName,
+                COUNT(f.FlightID) AS NumberOfFlights
+            FROM Flights f
+            JOIN Airports a ON f.Origin = a.AirportCode
+            GROUP BY f.Origin
             ORDER BY NumberOfFlights DESC;
             """
         else:

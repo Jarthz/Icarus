@@ -56,43 +56,53 @@ class LogicLayer:
                 exit(0)
 
             if main_menu_choice == 1:
-                result = self.cli.add_record(self.dao)
-                if result:
-                    select_table, data, columns = result
-                    self.add_record(select_table, data, columns)
+                selected_table = self.cli.get_limited_tables('add')
+                if selected_table:
+                    column_info = self.dao.get_table_columns(selected_table)
+                    columns_to_prompt = self.get_columns_to_prompt(column_info)
+                    if not columns_to_prompt:
+                        continue
+                    inputs = self.cli.add_record(columns_to_prompt)
+                    if inputs:
+                        data, columns = inputs
+                        self.add_record(selected_table, data, columns)
 
             if main_menu_choice == 2:
-                selected_table = self.cli.get_update_or_delete_table('delete')
+                selected_table = self.cli.get_limited_tables('delete')
                 column_info = self.dao.get_table_columns(selected_table)
+                if not column_info:
+                    continue
 
-                result = self.cli.delete_record(column_info, selected_table)
-                if result:
-                    select_table, value, columns = result
-                    data = [('', columns, '=', value)]
-                    if self.delete_record(select_table, data):
-                        print(f"Successfully deleted {columns} {value} from {select_table}")
+                column_dict = self.menu_dict_builder(column_info)
+                criteria = self.cli.search_specific_records(column_dict)
+                if criteria:
+                    self.delete_record(selected_table, criteria)
 
             if main_menu_choice == 3:
                 selected_table = self.cli.search_all_records()
                 if selected_table:
-                    rows, columns = self.dao.select_or_delete(selected_table, '*')
-                    self.cli.print_results(rows, columns)
+                    result = self.dao.select_or_delete(selected_table, '*')
+                    self.safely_print(result)
 
             if main_menu_choice == 4:
                 selected_table = self.cli.search_all_records()
                 if selected_table:
                     column_info = self.dao.get_table_columns(selected_table)
-                    criteria = self.cli.search_specific_records(column_info, selected_table)
-                    if isinstance(criteria, tuple):
-                        criteria = [criteria]
-                    rows, columns = self.dao.select_or_delete(selected_table, "*", criteria)
-                    self.cli.print_results(rows, columns)
+                    if not column_info:
+                        continue
+                    column_dict = self.menu_dict_builder(column_info)
+                    criteria = self.cli.search_specific_records(column_dict)
+                    if criteria:
+                        if isinstance(criteria, tuple):
+                            criteria = [criteria]
+                        result = self.dao.select_or_delete(selected_table, "*", criteria)
+                        self.safely_print(result)
 
             if main_menu_choice == 5:
-                selected_table = self.cli.get_update_or_delete_table('update')
+                selected_table = self.cli.get_limited_tables('update')
                 if selected_table:
                     column_info = self.dao.get_table_columns(selected_table)
-                    update_list, where_list = self.cli.get_update_table_value(selected_table, column_info)
+                    update_list, where_list = self.cli.get_update_table_value(column_info)
                     if not update_list or not where_list:
                         continue
                     self.update_record(selected_table, update_list, where_list)
@@ -115,6 +125,9 @@ class LogicLayer:
                     self.safely_print(result)
                 elif selected_report == 3:
                     result = self.dao.get_number_of_flights('Pilot')
+                    self.safely_print(result)
+                elif selected_report == 4:
+                    result = self.dao.get_number_of_flights('Origin')
                     self.safely_print(result)
 
 
@@ -144,6 +157,23 @@ class LogicLayer:
         update_to_where = self.convert_update_to_where_list(update_list)
         rows, columns = self.dao.select_or_delete(selected_table, "*", update_to_where)
         self.cli.print_results(rows, columns)
+
+    def get_columns_to_prompt(self, columns_info):
+        columns_to_prompt = tuple(
+            (col_name, col_type)
+            for col_name, col_type, pk in columns_info
+            if pk == 0
+        )
+        if not columns_to_prompt:
+            print("No columns available for table")
+            return []
+        return columns_to_prompt
+
+    def menu_dict_builder(self, columns_info):
+        columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
+        next_key = max(columns_dict.keys()) + 1
+        columns_dict[next_key] = 'Exit'
+        return columns_dict
 
 
 

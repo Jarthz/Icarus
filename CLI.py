@@ -42,38 +42,7 @@ class CLI:
 
         return self.validation(len(menu_options))
 
-    def add_record(self, dao):
-        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
-        print("\nSelect Table for new record")
-        print("**********")
-
-        for key, value in table_options.items():
-            print(f"{key}: {value}")
-
-        first_add_choice = self.validation(4)
-
-        if first_add_choice == 4:
-            print("\nReturning to Main Menu\n")
-            return
-
-        selected_table = table_options[first_add_choice]
-
-        # Retrieve columns dynamically using PRAGMA
-        columns_info = dao.get_table_columns(selected_table)
-        if not columns_info:
-            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
-            return
-
-        # Skip auto-increment PKs (assume PK == 1)
-        columns_to_prompt = tuple(
-            (col_name, col_type)
-            for col_name, col_type, pk in columns_info
-            if pk == 0
-        )
-
-        if not columns_to_prompt:
-            print(f"No columns available for data entry in '{selected_table}'.")
-            return
+    def add_record(self, columns_to_prompt):
 
         print("\nPlease enter values for the following fields:")
         data = tuple(
@@ -84,32 +53,7 @@ class CLI:
         cols = tuple(col_name for col_name, _ in columns_to_prompt)
 
         # Insert record via DAO
-        return selected_table, data, cols
-
-    def delete_record(self, columns_info, selected_table):
-
-        if not columns_info:
-            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
-            return
-
-        columns_dict = {index: col_name for index, (col_name,_,_) in enumerate(columns_info, start=1)}
-        next_key = max(columns_dict.keys()) + 1
-        columns_dict[next_key] = 'Exit'
-
-        print("\n Enter input column for record deletion from table")
-        print("**********")
-        for index, col_name in columns_dict.items():
-            print(f"{index}: {col_name}")
-
-        column_choice = self.validation(len(columns_dict))
-        column = columns_dict[column_choice]
-        if column_choice == next_key:
-            print("\nReturning to Main Menu\n")
-            return
-
-        value = int(input(f"Enter value to delete from {column} =: "))
-
-        return selected_table, value, column
+        return data, cols
 
     def search_all_records(self):
         table_options, next_key = self.get_table_dictionary()
@@ -121,7 +65,6 @@ class CLI:
             return
 
         column = table_options[choice]
-
         return column
 
     def print_results(self, rows, columns):
@@ -140,16 +83,8 @@ class CLI:
 
         return table_options, next_key
 
-    def search_specific_records(self, columns_info, selected_table):
-        if not columns_info:
-            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
-            return
-
+    def search_specific_records(self, columns_dict):
         criteria_list = []
-
-        columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
-        next_key = max(columns_dict.keys()) + 1
-        columns_dict[next_key] = 'Exit'
 
         while True:
 
@@ -157,34 +92,30 @@ class CLI:
             if criteria_list:
                 logical_operator = input("Optional: Enter logicial (AND/OR) to chain conditions, or press enter to skip: ").strip().upper()
                 if logical_operator not in ['AND', 'OR']:
-                    print("No logical operator, not chaining conditions.")
+                    print("No logical operator, skipping.")
                     return criteria_list
             else:
                 logical_operator = ''
 
-
-            print("\n choose a number to select column to search specific criteria from table")
+            print("\n Enter number to select column to input specific condition criteria")
             print("**********")
             for index, col_name in columns_dict.items():
                 print(f"{index}: {col_name}")
 
             column_choice = self.validation(len(columns_dict))
             column = columns_dict[column_choice]
-            if column_choice == next_key:
+            if column_choice == max(columns_dict.keys()):
                 print("\nReturning to Main Menu\n")
-                return
+                return criteria_list
 
-            comparison_operator = input(f"Enter comparison operator to search from {column} =, <>, <, >, etc : ").strip()
-            value = input(f'Enter value to search from {column}: ').strip()
-
-
+            comparison_operator = input(f"Enter operator for {column} =, <>, <, >, etc : ").strip()
+            value = input(f'Enter value from {column}: ').strip()
 
             criteria_list.append((logical_operator, column, comparison_operator, value))
 
-
         return criteria_list
 
-    def get_update_or_delete_table(self, type):
+    def get_limited_tables(self, type):
         table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
         print(f"\nSelect Table to {type} record")
         print("**********")
@@ -201,27 +132,8 @@ class CLI:
         selected_table = table_options[choice]
         return selected_table
 
-    def get_update_table_value(self, selected_table, columns_info):
-        """
-        to do,
-        1) get columns to update
-        2) get column values to update to
-        3) make list for multi updates
-        4) criteria list like specific search
-        5) get AND/OR
-        6) get columns
-        7) get operator =><
-        8) get value
-        :param columns_info:
-        :param selected_table:
-        :return:
-        """
-
-        if not columns_info:
-            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
-            return
-
-        # Skip auto-increment PKs (assume PK == 1)
+    def get_update_table_value(self, columns_info):
+        #prevent user from updating the primary key
         columns = tuple(
             col_name
             for col_name, col_type, pk in columns_info
@@ -248,7 +160,6 @@ class CLI:
                 print(f"{index}: {col_name}")
 
             column_choice_int = self.validation(len(columns_dict_reduced))
-            print("col choice: ", column_choice_int)
 
             #exit out on exit choice
             if column_choice_int == len(columns_dict_reduced):
@@ -326,11 +237,4 @@ class CLI:
         print("="*20)
         value = input("Enter PilotID: ")
         return value
-
-    def get_destination(self):
-        print("\n")
-        print("="*20)
-        value = input("Enter Destination Code: ")
-        return value
-
 

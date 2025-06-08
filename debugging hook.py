@@ -22,19 +22,11 @@ if __name__ == "__main__":
 
     logic.user = User.User("admin")
 
+    selected_table1 = cli.get_add_table()
+    print("1", selected_table1)
 
-    y = 1
-    result = dao.get_pilot_schedule(y)
-
-
-    #result = dao.select_or_delete('Pilots', '*')
-    if result:
-        row, columns = result
-    else:
-        print("No results")
-
-    cli.print_results(row, columns)
-
+    selected_table2 = cli.get_update_or_delete_table('Add')
+    print("2", selected_table2)
 
 
 

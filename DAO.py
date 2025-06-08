@@ -199,6 +199,7 @@ class DAO:
                 return rows, columns
             elif action.upper() == 'DELETE':
                 self.log_transaction(conn, user.username, action, table, details=f"{statement} {values}.")
+                print(f"Successfully deleted data from {table}.")
                 return [], []
         return self.transaction_wrapper(operation)
 

@@ -85,6 +85,7 @@ class Schema:
 
     reports = {
         1: ["Pilot Schedule", ('get_pilot_schedule', 'PilotID')],
-        2: ["Numer of flights to by Destination", ('get_number_of_flights', 'Destination')],
-        3: ["Number of flights by PilotID", ('get_number_of_flights', 'PilotID')]
+        2: ["Number of flights by Destination", ('get_number_of_flights', 'Destination')],
+        3: ["Number of flights by PilotID", ('get_number_of_flights', 'PilotID')],
+        4: ["Number of flights by Origin", ('get_number_of_flights', 'Origin')],
     }
