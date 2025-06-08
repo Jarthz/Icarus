@@ -148,3 +148,5 @@ class QueryBuilder:
         INSERT INTO AuditLog (Username, Action, TableName, Details)
         VALUES (?, ?, ?, ?)
         """
+
+

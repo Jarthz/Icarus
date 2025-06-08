@@ -131,15 +131,7 @@ class CLI:
         return selected_table, value, column
 
     def search_all_records(self):
-        table_options = {index: key for index, key in enumerate(Schema.Tables, start=1)}
-        next_key = max(table_options.keys()) + 1
-        table_options[next_key] = 'Exit'
-
-        print("\nSelect Table to view")
-        print("**********")
-
-        for key, value in table_options.items():
-            print(f"{key}: {value}")
+        table_options, next_key = self.get_table_dictionary()
 
         choice = self.validation(len(table_options))
 
@@ -154,8 +146,103 @@ class CLI:
     def print_results(self, rows, columns):
         print(tabulate.tabulate(rows, headers=columns, tablefmt='fancy_grid'))
 
+    def get_table_dictionary(self):
+        table_options = {index: key for index, key in enumerate(Schema.Tables, start=1)}
+        next_key = max(table_options.keys()) + 1
+        table_options[next_key] = 'Exit'
+
+        print("\nSelect Table to view")
+        print("**********")
+
+        for key, value in table_options.items():
+            print(f"{key}: {value}")
+
+        return table_options, next_key
+
+    def search_specific_records(self, columns_info, selected_table):
+        if not columns_info:
+            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
+            return
+
+        criteria_list = []
+
+        while True:
+
+            columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
+            next_key = max(columns_dict.keys()) + 1
+            columns_dict[next_key] = 'Exit'
+
+            #first input doesn't need an and/or operator so loop only when the list has a value
+            if criteria_list:
+                logical_operator = input("Optional: Enter logicial (AND/OR) to chain conditions, or press enter to skip: ").strip().upper()
+                if logical_operator not in ['AND', 'OR']:
+                    print("No logical operator, not chaining conditions.")
+                    return criteria_list
+            else:
+                logical_operator = ''
 
 
+            print("\n choose a number to select column to search specific criteria from table")
+            print("**********")
+            for index, col_name in columns_dict.items():
+                print(f"{index}: {col_name}")
+
+            column_choice = self.validation(len(columns_dict))
+            column = columns_dict[column_choice]
+            if column_choice == next_key:
+                print("\nReturning to Main Menu\n")
+                return
+
+            comparison_operator = input(f"Enter comparison operator to search from {column} =, <>, <, >, etc : ").strip()
+            value = input(f'Enter value to search from {column}: ').strip()
+
+
+
+            criteria_list.append((logical_operator, column, comparison_operator, value))
+
+
+        return criteria_list
+
+    def get_update_or_delete_table(self, type):
+        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
+        print(f"\nSelect Table to {type} record")
+        print("**********")
+
+        for key, value in table_options.items():
+            print(f"{key}: {value}")
+
+        choice = self.validation(4)
+
+        if choice == 4:
+            print("\nReturning to Main Menu\n")
+            return
+
+        selected_table = table_options[choice]
+        return selected_table
+
+    def get_update_table_value(self, columns_info, selected_table):
+        if not columns_info:
+            print(f"Error: Could not retrieve columns for table '{selected_table}'.")
+            return
+
+        columns_dict = {index: col_name for index, (col_name, _, _) in enumerate(columns_info, start=1)}
+        next_key = max(columns_dict.keys()) + 1
+        columns_dict[next_key] = 'Exit'
+
+        print(f"\n choose a number to select input column for record {type} from table")
+        print("**********")
+        for index, col_name in columns_dict.items():
+            print(f"{index}: {col_name}")
+
+        column_choice = self.validation(len(columns_dict))
+        column = columns_dict[column_choice]
+        if column_choice == next_key:
+            print("\nReturning to Main Menu\n")
+            return
+
+        value = int(input(f"Enter value to delete from {column} =: "))
+
+        return selected_table, value, column
 
 
 

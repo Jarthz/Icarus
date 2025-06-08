@@ -192,6 +192,8 @@ class DAO:
         def operation(conn):
             cursor = conn.cursor()
             statement, values = qb.get_sql_select_delete(table, column, criteria, action)
+            print(statement)
+            print(values)
             cursor.execute(statement, values)
             if action.upper() == 'SELECT':
                 rows = cursor.fetchall()
@@ -199,7 +201,7 @@ class DAO:
                 return rows, columns
             elif action.upper() == 'DELETE':
                 self.log_transaction(conn, user.username, action, table, details=f"{statement} {values}.")
-                return
+                return [], []
 
 
 

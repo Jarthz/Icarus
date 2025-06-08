@@ -58,10 +58,10 @@ class LogicLayer:
                     self.add_record(select_table, data, columns)
 
             if main_menu_choice == 2:
-                selected_column = self.cli.delete_record()
-                column_info = self.dao.get_table_columns(selected_column)
+                selected_table = self.cli.delete_record()
+                column_info = self.dao.get_table_columns(selected_table)
 
-                result = self.cli.delete_record_2(column_info, selected_column)
+                result = self.cli.delete_record_2(column_info, selected_table)
                 if result:
                     select_table, value, columns = result
                     data = [('', columns, '=', value)]
@@ -73,6 +73,26 @@ class LogicLayer:
                 if selected_table:
                     rows, columns = self.dao.select_or_delete(selected_table, '*')
                     self.cli.print_results(rows, columns)
+
+            if main_menu_choice == 4:
+                selected_table = self.cli.search_all_records()
+                if selected_table:
+                    column_info = self.dao.get_table_columns(selected_table)
+                    criteria = self.cli.search_specific_records(column_info, selected_table)
+                    if isinstance(criteria, tuple):
+                        criteria = [criteria]
+                    rows, columns = self.dao.select_or_delete(selected_table, "*", criteria)
+                    self.cli.print_results(rows, columns)
+
+            if main_menu_choice == 5:
+                selected_table = self.cli.update_or_delete_table('update')
+                if selected_table:
+                    column_info = self.dao.get_table_columns(selected_table)
+
+
+
+
+
 
 
 

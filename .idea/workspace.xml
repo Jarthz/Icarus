@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="delete and audit log">
+    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="select all">
+      <change afterPath="$PROJECT_DIR$/debugging hook.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unit_tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI.py" beforeDir="false" afterPath="$PROJECT_DIR$/CLI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLI_test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/CLI_test.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Icarus.db" beforeDir="false" afterPath="$PROJECT_DIR$/Icarus.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flights.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Flights.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Icarus.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/LogicLayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogicLayer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QueryBuilder.py" beforeDir="false" afterPath="$PROJECT_DIR$/QueryBuilder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schema.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,33 +55,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.AirportDAO.executor": "Run",
-    "Python.CLI.executor": "Run",
-    "Python.DAO.executor": "Run",
-    "Python.DatabaseManager.executor": "Run",
-    "Python.QueryBuilder.executor": "Run",
-    "Python.main2.executor": "Run",
-    "Python.testcli.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.AirportDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CLI.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DAO.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DatabaseManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.QueryBuilder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.debugging hook.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testcli.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Bath\Database and Cloud\Icarus" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.testcli">
+  <component name="RunManager" selected="Python.debugging hook">
     <configuration name="test.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/test.sql" />
       <script-mode>FILE</script-mode>
@@ -106,29 +111,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="DAO" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Icarus" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DAO.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="QueryBuilder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Icarus" />
       <option name="ENV_FILES" value="" />
@@ -144,6 +126,29 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QueryBuilder.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="debugging hook" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Icarus" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/debugging hook.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,11 +182,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.debugging hook" />
         <item itemvalue="Python.testcli" />
         <item itemvalue="Python.CLI" />
         <item itemvalue="Python.QueryBuilder" />
         <item itemvalue="Database Script.test.sql" />
-        <item itemvalue="Python.DAO" />
       </list>
     </recent_temporary>
   </component>
@@ -207,7 +212,10 @@
       <workItem from="1749149667031" duration="6244000" />
       <workItem from="1749236669359" duration="3760000" />
       <workItem from="1749287845603" duration="9684000" />
-      <workItem from="1749297999987" duration="27369000" />
+      <workItem from="1749297999987" duration="27723000" />
+      <workItem from="1749372241930" duration="5596000" />
+      <workItem from="1749382167013" duration="146000" />
+      <workItem from="1749382318548" duration="2904000" />
     </task>
     <task id="LOCAL-00001" summary="update databasemanager with connect and close">
       <option name="closed" value="true" />
@@ -329,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749329213751</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="select all">
+      <option name="closed" value="true" />
+      <created>1749331858951</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1749331858951</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -349,15 +365,17 @@
     <MESSAGE value="user login and password" />
     <MESSAGE value="add now works from CLI" />
     <MESSAGE value="delete and audit log" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete and audit log" />
+    <MESSAGE value="select all" />
+    <option name="LAST_COMMIT_MESSAGE" value="select all" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Icarus$CLI.coverage" NAME="CLI Coverage Results" MODIFIED="1749328614654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$QueryBuilder.coverage" NAME="QueryBuilder Coverage Results" MODIFIED="1749311173248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DAO.coverage" NAME="DAO Coverage Results" MODIFIED="1749238480545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749331433717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749384597434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DatabaseManager.coverage" NAME="DatabaseManager Coverage Results" MODIFIED="1748894194416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1748896051137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$debugging_hook.coverage" NAME="debugging hook Coverage Results" MODIFIED="1749384786793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$AirportDAO.coverage" NAME="AirportDAO Coverage Results" MODIFIED="1748981269076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -20,14 +20,14 @@ class Schema:
         "Flights": """
             FlightID INTEGER PRIMARY KEY AUTOINCREMENT,
             DepartureDate TEXT,
-            Origin INTEGER NOT NULL,
-            Destination INTEGER NOT NULL,
+            Origin TEXT NOT NULL,
+            Destination TEXT NOT NULL,
             PilotID INTEGER,
             DepartureTime TEXT NOT NULL, -- ISO 8601 format: 'HH:MM'
             ArrivalTime TEXT, -- ISO 8601 format: 'HH:MM'
             Status TEXT NOT NULL DEFAULT 'Scheduled',
-            FOREIGN KEY (Origin) REFERENCES Airports (AirportID),
-            FOREIGN KEY (Destination) REFERENCES Airports (AirportID),
+            FOREIGN KEY (Origin) REFERENCES Airports (AirportCode),
+            FOREIGN KEY (Destination) REFERENCES Airports (AirportCode),
             FOREIGN KEY (PilotID) REFERENCES Pilots (PilotID)
         """,
         "RouteTimes": """
