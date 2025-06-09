@@ -4,18 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="sql injection testing and error handling">
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="94536872-332e-49ed-94a7-e5ffe29126f7" name="Changes" comment="final final">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e181ddf-5ef0-43a2-af1f-9ffbce9f9cf3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLI_test.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Icarus.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLI.py" beforeDir="false" afterPath="$PROJECT_DIR$/CLI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/DAO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flights.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Flights.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LogicLayer.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogicLayer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QueryBuilder.py" beforeDir="false" afterPath="$PROJECT_DIR$/QueryBuilder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RouteTimes.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debugging hook.py" beforeDir="false" afterPath="$PROJECT_DIR$/debugging hook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit_tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcli.py" beforeDir="false" afterPath="$PROJECT_DIR$/testcli.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,8 +187,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.testcli" />
-        <item itemvalue="Python.QueryBuilder" />
         <item itemvalue="Python.debugging hook" />
+        <item itemvalue="Python.QueryBuilder" />
         <item itemvalue="Python.CLI" />
         <item itemvalue="Database Script.test.sql" />
       </list>
@@ -221,7 +220,8 @@
       <workItem from="1749372241930" duration="5596000" />
       <workItem from="1749382167013" duration="146000" />
       <workItem from="1749382318548" duration="21956000" />
-      <workItem from="1749415544347" duration="403000" />
+      <workItem from="1749415544347" duration="2301000" />
+      <workItem from="1749452233575" duration="29541000" />
     </task>
     <task id="LOCAL-00001" summary="update databasemanager with connect and close">
       <option name="closed" value="true" />
@@ -375,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749400406972</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="final final">
+      <option name="closed" value="true" />
+      <created>1749416303024</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1749416303024</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -399,16 +407,17 @@
     <MESSAGE value="search specific, unit tests" />
     <MESSAGE value="finished update" />
     <MESSAGE value="sql injection testing and error handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql injection testing and error handling" />
+    <MESSAGE value="final final" />
+    <option name="LAST_COMMIT_MESSAGE" value="final final" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Icarus$CLI.coverage" NAME="CLI Coverage Results" MODIFIED="1749328614654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$QueryBuilder.coverage" NAME="QueryBuilder Coverage Results" MODIFIED="1749311173248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DAO.coverage" NAME="DAO Coverage Results" MODIFIED="1749238480545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749413473887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$testcli.coverage" NAME="testcli Coverage Results" MODIFIED="1749495415432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$DatabaseManager.coverage" NAME="DatabaseManager Coverage Results" MODIFIED="1748894194416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1748896051137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Icarus$debugging_hook.coverage" NAME="debugging hook Coverage Results" MODIFIED="1749414598085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Icarus$debugging_hook.coverage" NAME="debugging hook Coverage Results" MODIFIED="1749457818633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Icarus$AirportDAO.coverage" NAME="AirportDAO Coverage Results" MODIFIED="1748981269076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -19,16 +19,15 @@ class Schema:
         """,
         "Flights": """
             FlightID INTEGER PRIMARY KEY AUTOINCREMENT,
-            DepartureDate TEXT,
+            DepartureDate TEXT, -- ISO 8601 date
             Origin TEXT NOT NULL,
             Destination TEXT NOT NULL,
-            PilotID INTEGER,
-            DepartureTime TEXT NOT NULL, -- ISO 8601 format: 'HH:MM'
+            DepartureTime TEXT, -- ISO 8601 format: 'HH:MM'
             ArrivalTime TEXT, -- ISO 8601 format: 'HH:MM'
-            Status TEXT NOT NULL DEFAULT 'Scheduled',
+            Status TEXT NOT NULL DEFAULT 'Schedule',
+            CrewAssigned INTEGER DEFAULT 0,
             FOREIGN KEY (Origin) REFERENCES Airports (AirportCode),
-            FOREIGN KEY (Destination) REFERENCES Airports (AirportCode),
-            FOREIGN KEY (PilotID) REFERENCES Pilots (PilotID)
+            FOREIGN KEY (Destination) REFERENCES Airports (AirportCode)
         """,
         "Users": """
             UserID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +41,14 @@ class Schema:
             TableName TEXT, 
             Timestamp TEXT DEFAULT (datetime('now', 'localtime')),
             Details TEXT
+        """,
+        'FlightCrew': """ 
+            FlightID INTEGER NOT NULL,
+            PilotID INTEGER NOT NULL,
+            Role TEXT NOT NULL,
+            PRIMARY KEY(FlightID, PilotID),
+            FOREIGN KEY(FlightID) REFERENCES Flights(FlightID) ON DELETE CASCADE,
+            FOREIGN KEY(PilotID) REFERENCES Pilots(PilotID)
         """
     }
 

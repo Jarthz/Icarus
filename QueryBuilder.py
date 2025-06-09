@@ -1,16 +1,27 @@
-from prometheus_client import values
-
-
 class QueryBuilder:
 
     @staticmethod
     def get_sql_select_delete(table_name, column_name, criteria=None, action='SELECT'):
         """
-        :param table_name (str):
-        :param column_name (str or list):
-        :param criteria (4 tuple , 1: optional'AND/OR, 2:Column, 3:operator, 4:Value):
-        :param action optional(str) SELECT or DELETE only:
+        Constructs a parameterised SQL SELECT or DELETE statement for the specified table.
+
+        Args:
+            table_name (str): Name of the table to query.
+            column_name (str or list): Column(s) to select or delete.
+            criteria (list of tuple, optional): A list of 4-tuples specifying WHERE clause conditions.
+                Each tuple should be in the format:
+                    (logical_operator, column, operator, value)
+                where:
+                    logical_operator (str): Optional; can be 'AND' or 'OR' (first condition uses an empty string '').
+                    column (str): Column name to filter on.
+                    operator (str): Comparison operator (e.g. '=', '<', '>', '<>').
+                    value (str): Value to compare against.
+            action (str, optional): Either 'SELECT' or 'DELETE'. Defaults to 'SELECT'.
+
+        Returns:
+            tuple: A tuple containing the SQL statement (str) and a list of parameter values.
         """
+
         if isinstance(column_name, list):
             columns_str = ', '.join(column_name)
         else:
@@ -51,13 +62,7 @@ class QueryBuilder:
             INSERT INTO {table_name} ({','.join(columns)})
             VALUES ({placeholders})
             """
-    @staticmethod
-    def get_sql_average_time(self):
-        return f"""
-            SELECT AverageJourneyTime AS avg_time
-            FROM RouteTimes
-            WHERE Origin = ? AND Destination = ?
-            """
+
     @staticmethod
     def get_sql_arrival_times(self):
         return f"""
@@ -113,6 +118,7 @@ class QueryBuilder:
         sql_statement = f"""
         SELECT
             p.FirstName || ' ' || p.LastName AS PilotName,
+            fc.Role,
             f.FlightID,
             f.DepartureDate,
             f.DepartureTime,
@@ -121,11 +127,12 @@ class QueryBuilder:
             af.AirportCode AS DestinationCode,
             af.AirportName AS DestinationName,
             f.Status
-        FROM Flights f
+        FROM FlightCrew fc
+        JOIN Flights f ON fc.FlightID = f.FlightID
         JOIN Airports ao ON f.Origin = ao.AirportCode
         JOIN Airports af ON f.Destination = af.AirportCode
-        JOIN Pilots p ON f.PilotID = p.PilotID
-        WHERE f.PilotID = ?
+        JOIN Pilots p ON fc.PilotID = p.PilotID
+        WHERE fc.PilotID = ?
         ORDER BY f.DepartureDate, f.DepartureTime;
         """
         return sql_statement
@@ -149,10 +156,10 @@ class QueryBuilder:
                 p.FirstName || ' ' || p.LastName AS Pilot,
                 p.PilotID,
                 p.LicenseNumber,
-                COUNT(f.FlightID) AS NumberOfFlights
-            FROM Flights f
-            JOIN Pilots p ON f.PilotID = p.PilotID
-            GROUP BY f.PilotID
+                COUNT(fc.FlightID) AS NumberOfFlights
+            FROM FlightCrew fc
+            JOIN Pilots p ON fc.PilotID = p.PilotID
+            GROUP BY fc.PilotID
             ORDER BY NumberOfFlights DESC;
             """
         elif GroupBy == 'Origin':
@@ -169,3 +176,67 @@ class QueryBuilder:
         else:
             raise ValueError("Invalid GroupBy parameter. Use 'Destination', 'Pilot' or 'Origin'.")
 
+#############################
+######### Triggers for integrity
+
+    #auto updates flights table if you assign pilot to flight
+    @staticmethod
+    def sql_create_crew_trigger():
+        return """CREATE TRIGGER IF NOT EXISTS trg_update_crew_assigned
+        AFTER INSERT ON FlightCrew
+        BEGIN
+            UPDATE Flights
+            SET CrewAssigned = (
+                SELECT COUNT(*)
+                FROM FlightCrew
+                WHERE FlightID = NEW.FlightID
+            )
+            WHERE FlightID = NEW.FlightID;
+        END;
+        
+        CREATE TRIGGER IF NOT EXISTS trg_update_crew_assigned_delete
+        AFTER DELETE ON FlightCrew
+        BEGIN
+            UPDATE Flights
+            SET CrewAssigned = (
+                SELECT COUNT(*)
+                FROM FlightCrew
+                WHERE FlightID = OLD.FlightID
+            )
+            WHERE FlightID = OLD.FlightID;
+        END;
+        """
+
+
+    @staticmethod
+    def sql_no_double_bookings():
+        return """CREATE TRIGGER IF NOT EXISTS trg_no_double_booking
+        AFTER INSERT ON FlightCrew
+        BEGIN
+            -- Check for conflicting flights
+            SELECT
+                CASE
+                    WHEN (
+                        SELECT COUNT(*)
+                        FROM FlightCrew fc
+                        JOIN Flights f1 ON fc.FlightID = f1.FlightID
+                        WHERE
+                            fc.PilotID = NEW.PilotID
+                            AND f1.DepartureDate = (
+                                SELECT DepartureDate
+                                FROM Flights
+                                WHERE FlightID = NEW.FlightID
+                            )
+                            AND fc.FlightID != NEW.FlightID
+                    ) > 0
+                    THEN
+                        RAISE(ABORT, 'Pilot is already assigned to another flight on this date.')
+                END;
+        END;"""
+
+    @staticmethod
+    def sql_delete_triggers():
+        return """
+        DROP TRIGGER IF EXISTS trg_update_crew_assigned;
+        DROP TRIGGER IF EXISTS trg_no_double_booking;
+        """

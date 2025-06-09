@@ -116,16 +116,16 @@ class CLI:
         return criteria_list
 
     def get_limited_tables(self, type):
-        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "Return to Main Menu"}
+        table_options = {1: "Airports", 2: "Pilots", 3: "Flights", 4: "FlightCrew", 5: "Return to Main Menu"}
         print(f"\nSelect Table to {type} record")
         print("**********")
 
         for key, value in table_options.items():
             print(f"{key}: {value}")
 
-        choice = self.validation(4)
+        choice = self.validation(len(table_options))
 
-        if choice == 4:
+        if choice == len(table_options):
             print("\nReturning to Main Menu\n")
             return
 

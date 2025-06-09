@@ -59,7 +59,10 @@ class LogicLayer:
                 selected_table = self.cli.get_limited_tables('add')
                 if selected_table:
                     column_info = self.dao.get_table_columns(selected_table)
-                    columns_to_prompt = self.get_columns_to_prompt(column_info)
+                    if selected_table == 'FlightCrew':
+                        columns_to_prompt = self.get_columns_to_prompt(column_info, 1)
+                    else:
+                        columns_to_prompt = self.get_columns_to_prompt(column_info)
                     if not columns_to_prompt:
                         continue
                     inputs = self.cli.add_record(columns_to_prompt)
@@ -158,12 +161,18 @@ class LogicLayer:
         rows, columns = self.dao.select_or_delete(selected_table, "*", update_to_where)
         self.cli.print_results(rows, columns)
 
-    def get_columns_to_prompt(self, columns_info):
-        columns_to_prompt = tuple(
-            (col_name, col_type)
-            for col_name, col_type, pk in columns_info
-            if pk == 0
-        )
+    def get_columns_to_prompt(self, columns_info, type=None):
+        if type:
+            columns_to_prompt = tuple(
+                (col_name, col_type)
+                for col_name, col_type, pk in columns_info
+            )
+        else:
+            columns_to_prompt = tuple(
+                (col_name, col_type)
+                for col_name, col_type, pk in columns_info
+                if pk == 0
+            )
         if not columns_to_prompt:
             print("No columns available for table")
             return []

@@ -14,11 +14,12 @@ if __name__ == "__main__":
     dao.create_table()
     dao.drop_table()
     dao.create_table()
-    files = ['Airports.csv', 'Pilots.csv', 'RouteTimes.csv', 'Flights.csv']
+    dao.create_triggers()
+    files = ['Airports.csv', 'Pilots.csv', 'Flights.csv', 'FlightCrew.csv']
     dao.insert_legacy_data(files)
     dao.add_user("admin", "Password123")
     admin1 = User.User('admin')
-    dao.add_data('Flights', ('21/07/2025', 'LHR', 'LAX', 11, '07:00', '19:00', 'Scheduled'), ('DepartureDate', 'Origin', 'Destination','PilotID', 'DepartureTime', 'ArrivalTime', 'Status'), admin1)
+    dao.add_data('Flights', ('2025-07-30', 'LHR', 'LAX', '07:00', '19:00', 'Scheduled'), ('DepartureDate', 'Origin', 'Destination', 'DepartureTime', 'ArrivalTime', 'Status'), admin1)
 
 
 

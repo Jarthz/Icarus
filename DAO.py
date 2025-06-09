@@ -1,12 +1,9 @@
 
 import pandas as pd
-import sqlite3
 import os
 from Schema import Schema
 from QueryBuilder import QueryBuilder as qb
 import bcrypt
-
-
 
 class DAO:
     def __init__(self, db_manager):
@@ -30,6 +27,19 @@ class DAO:
                 self.db_manager.rollback(conn)
             finally:
                 self.db_manager.close(conn)
+
+    def create_triggers(self):
+        def operation(conn):
+            cursor = conn.cursor()
+            print("deleting old triggers...")
+            cursor.executescript(qb.sql_delete_triggers())
+
+            print("Creating triggers...")
+            sql_statement = qb.sql_create_crew_trigger()
+            cursor.execute(sql_statement)
+            sql_statement = qb.sql_no_double_bookings()
+            cursor.execute(sql_statement)
+        return self.transaction_wrapper(operation)
 
 #polymorphism to make this generic
     def drop_table(self, table=Schema.Tables):
@@ -203,20 +213,6 @@ class DAO:
                 return [], []
         return self.transaction_wrapper(operation)
 
-    def get_average_time(self, origin, destination):
-        def operation(conn):
-            cursor = conn.cursor()
-            statement = qb.get_sql_average_time()
-            values = (origin, destination)
-            cursor.execute(statement, values)
-            print(statement)
-            print(values)
-
-            result = cursor.fetchone()
-            print(result)
-            return result
-        return self.transaction_wrapper(operation)
-
     def update(self, table, change, criteria=None, user=None):
         def operation(conn):
             cursor = conn.cursor()
@@ -230,8 +226,6 @@ class DAO:
         def operation(conn):
             cursor = conn.cursor()
             statement = qb.get_sql_pilot_schedule()
-            print(statement)
-            print((PilotID, ))
             cursor.execute(statement, (PilotID,))
             rows = cursor.fetchall()
             columns = [description[0] for description in cursor.description]
