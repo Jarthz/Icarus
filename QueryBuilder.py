@@ -49,7 +49,7 @@ class QueryBuilder:
 
     @staticmethod
     def get_sql_create_table(table_name, schema):
-        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema}) STRICT"
+        return f"CREATE TABLE IF NOT EXISTS {table_name} ({schema})"
 
     #for paramatisation
     @staticmethod
