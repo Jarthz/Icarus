@@ -116,8 +116,6 @@ class DAO:
                     self.db_manager.rollback(conn)
                 finally:
                     self.db_manager.close(conn)
-
-#learnt this after the above, still will be useful for updates and deletes
     def transaction_wrapper(self, operation):
         conn = self.db_manager.connect()
         if not conn:
@@ -135,6 +133,8 @@ class DAO:
         finally:
             self.db_manager.close(conn)
         return result
+#learnt this after the above, still will be useful for updates and deletes
+
 
     def get_row_count(self, table_name, conn=None):
         def operation(inner_conn):

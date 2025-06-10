@@ -66,10 +66,7 @@ class Schema:
         return auto_increment_cols
 
     """
-    for use in the CLI and the logic layer. Data Control by centralisation. 
-    TODO utilising the method names == item 2 eventually for more dynamic
-    This was done for value 'exit' method is dynamic to execute even when inserting new keys   
-    
+    for use in the CLI and the logic layer. Data Control by centralisation.     
     """
     main_menu = {
         1: ["Add new record", "add_record"],

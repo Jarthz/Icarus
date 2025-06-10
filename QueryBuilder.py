@@ -64,7 +64,7 @@ class QueryBuilder:
             """
 
     @staticmethod
-    def get_sql_arrival_times(self):
+    def get_sql_arrival_times():
         return f"""
             SELECT ArrivalTime
             FROM Flights
