@@ -11,9 +11,11 @@ if __name__ == "__main__":
     dao = DAO.DAO(dbm)
     logic = LogicLayer.LogicLayer(dao, cli)
 
+    #drop all tables to get fresh start of demo
     dao.drop_table()
     dao.create_table()
     dao.create_triggers()
+    #propogate tables with 'legacy' data
     files = ['Airports.csv', 'Pilots.csv', 'Flights.csv', 'FlightCrew.csv']
     dao.insert_legacy_data(files)
     dao.add_user("admin", "Password123")
