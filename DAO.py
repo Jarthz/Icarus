@@ -36,9 +36,9 @@ class DAO:
 
             print("Creating triggers...")
             sql_statement = qb.sql_create_crew_trigger()
-            cursor.execute(sql_statement)
+            cursor.executescript(sql_statement)
             sql_statement = qb.sql_no_double_bookings()
-            cursor.execute(sql_statement)
+            cursor.executescript(sql_statement)
         return self.transaction_wrapper(operation)
 
 #polymorphism to make this generic
