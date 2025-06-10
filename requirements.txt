@@ -1,6 +1,4 @@
 numpy
 pandas
-jupyter
 tabulate
 bcrypt
-sqlite3
