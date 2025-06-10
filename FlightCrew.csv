@@ -1,0 +1,21 @@
+﻿FlightID,PilotID,Role
+1,1,Captain
+1,2,First Officer
+2,3,Captain
+2,4,First Officer
+4,7,Captain
+4,8,First Officer
+6,11,Captain
+6,12,First Officer
+7,13,Captain
+7,14,First Officer
+8,15,Captain
+8,16,First Officer
+9,17,Captain
+9,18,First Officer
+11,1,Captain
+11,2,First Officer
+12,3,Captain
+12,4,First Officer
+3,5,Captain
+5,6,First Officer
